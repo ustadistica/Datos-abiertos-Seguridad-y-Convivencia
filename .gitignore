@@ -1,0 +1,18 @@
+# Ignorar archivo Excel grande
+Datos/PPED-AreaSexoEdadMun-2018-2042_VP.xlsx
+
+# Ignorar todos los archivos temporales de Excel
+*.tmp
+~$*.xlsx
+
+# Ignorar archivos de sistema de Windows
+Thumbs.db
+Desktop.ini
+
+# Ignorar cachés de R y Python (si los usas)
+.Rhistory
+.RData
+.Rproj.user/
+__pycache__/
+*.pyc
+
