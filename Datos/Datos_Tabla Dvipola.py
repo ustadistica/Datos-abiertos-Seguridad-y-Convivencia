@@ -4,17 +4,17 @@ import requests
 # ------------------------------------------------------------
 # 1. Cargar DIVIPOLA desde la API
 # ------------------------------------------------------------
-print("📥 Extrayendo datos de DIVIPOLA desde su API...")
+print(" Extrayendo datos de DIVIPOLA desde su API...")
 
 url = "https://www.datos.gov.co/resource/gdxc-w37w.json?$limit=2000"
 response = requests.get(url)
 
 if response.status_code != 200:
-    raise Exception("❌ Error al descargar la base DIVIPOLA")
+    raise Exception(" Error al descargar la base DIVIPOLA")
 
 df_divipola = pd.read_json(response.text)
 
-print(f"✅ DIVIPOLA cargada con {df_divipola.shape[0]} filas y {df_divipola.shape[1]} columnas")
+print(f" DIVIPOLA cargada con {df_divipola.shape[0]} filas y {df_divipola.shape[1]} columnas")
 print("Columnas:", list(df_divipola.columns))
 
 # Nos quedamos con las columnas que queremos
@@ -36,7 +36,7 @@ hoja = "PobMunicipalxÁreaSexoEdad"
 
 df_pob = pd.read_excel(archivo_excel, sheet_name=hoja)
 
-print(f"\n✅ Hoja '{hoja}' cargada correctamente.")
+print(f"\n Hoja '{hoja}' cargada correctamente.")
 print(f"Filas: {df_pob.shape[0]}, Columnas: {df_pob.shape[1]}")
 
 # ------------------------------------------------------------
@@ -69,7 +69,7 @@ df_final = df_final[[
 # Ordenar por año y municipio
 df_final = df_final.sort_values(by=["ANO", "cod_mpio"]).reset_index(drop=True)
 
-print("\n✅ Unión completada. Variables finales:")
+print("\n Unión completada. Variables finales:")
 print(list(df_final.columns))
 print(f"Total de filas: {df_final.shape[0]}")
 
@@ -80,5 +80,5 @@ print(f"Total de filas: {df_final.shape[0]}")
 df_final.to_excel("DIVIPOLA_Poblacion_2018_2024.xlsx", index=False)
 df_final.to_csv("DIVIPOLA_Poblacion_2018_2024.csv", index=False, encoding="utf-8-sig")
 
-print("\n💾 Archivos guardados: Excel + CSV")
+print("\n Archivos guardados: Excel + CSV")
 print("Proceso completado.")
