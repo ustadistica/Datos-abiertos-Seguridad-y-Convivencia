@@ -1,0 +1,88 @@
+# Ignorar archivo Excel grande
+Datos/PPED-AreaSexoEdadMun-2018-2042_VP.xlsx
+
+# Ignorar todos los archivos temporales de Excel
+*.tmp
+~$*.xlsx
+
+# Ignorar archivos de sistema de Windows
+Thumbs.db
+Desktop.ini
+
+# Ignorar cachés de R y Python (si los usas)
+.Rhistory
+.RData
+.Rproj.user/
+__pycache__/
+*.pyc
+
+# ======================================
+# ARCHIVOS DE DATOS GRANDES
+# ======================================
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.sav
+*.dta
+*.rds
+*.RData
+
+# Mantener solo si realmente quieres versionar un archivo de ejemplo
+!ejemplo_*.csv
+!ejemplo_*.xlsx
+
+# ======================================
+# ARCHIVOS DE R
+# ======================================
+.Rhistory
+.RData
+.Rproj.user/
+.Ruserdata
+*.Rproj
+
+# ======================================
+# ARCHIVOS DE PYTHON
+# ======================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.env
+.venv
+*.ipynb_checkpoints
+
+# ======================================
+# OFFICE (Word, Excel, PowerPoint temporales)
+# ======================================
+~$*.docx
+~$*.xlsx
+~$*.pptx
+
+# ======================================
+# SISTEMA / TEMPORALES
+# ======================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.log
+
+# ======================================
+# PROYECTOS DE VISUAL STUDIO CODE
+# ======================================
+.vscode/
+.history/
+
+# ======================================
+# JUPYTER NOTEBOOKS
+# ======================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ======================================
+# ONEDRIVE (a veces genera conflictos)
+# ======================================
+*.lnk
+~$*
