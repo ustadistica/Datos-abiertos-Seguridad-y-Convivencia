@@ -1,0 +1,15 @@
+Informe sobre la integración de bases de datos: Población proyectada (DANE) y DIVIPOLA
+
+En el proceso de integración de la base de Serie municipal de población por área, sexo y edad para el periodo 2018-2042 (DANE) con la base de DIVIPOLA, se identificaron diversos conflictos técnicos y metodológicos que requirieron un tratamiento cuidadoso para garantizar la coherencia y calidad de la información consolidada.
+
+El primer desafío se presentó en la inconsistencia en los códigos de los municipios. Mientras la base de población del DANE utiliza códigos administrativos actualizados, en algunos casos la base de DIVIPOLA mantiene registros de municipios que han sido recientemente creados, modificados o fusionados. Esta situación generó duplicidades o ausencia de coincidencias en la unión, especialmente en municipios nuevos o aquellos con cambios recientes en su división política-administrativa.
+
+Otro conflicto relevante fue la diferencia en los nombres de los municipios. Se identificaron variaciones ortográficas, el uso de tildes, mayúsculas y abreviaturas, lo que ocasionaba que, aunque el código fuera similar, los nombres no coincidieran exactamente entre las bases. Este aspecto implicó un proceso de estandarización y normalización de texto para lograr un emparejamiento correcto.
+
+Asimismo, se encontraron dificultades en la estructura y formato de las variables. En la base del DANE, la información poblacional está organizada por año, sexo y grupos quinquenales de edad, mientras que DIVIPOLA presenta únicamente la caracterización de los municipios y departamentos. Esto obligó a definir claves de unión basadas en los códigos geográficos, dejando las demás variables únicamente como información complementaria.
+
+Adicionalmente, se detectó la presencia de registros faltantes y no coincidentes en ambas bases. Algunos municipios presentes en el archivo del DANE no contaban con registro en la versión descargada de DIVIPOLA, y viceversa. En estos casos, se procedió a verificar la consistencia mediante fuentes oficiales del DANE y del DNP para decidir si correspondía excluir el municipio, reasignarlo o ajustarlo en la integración final.
+
+Finalmente, un aspecto clave fue la armonización temporal y territorial. Mientras la base poblacional abarca proyecciones hasta 2042, DIVIPOLA refleja la estructura territorial vigente al momento de la descarga. Esto implica que futuras actualizaciones de la división político-administrativa podrían generar nuevas inconsistencias, por lo que se recomienda documentar claramente la versión utilizada de cada fuente y establecer un protocolo de actualización periódica.
+
+En conclusión, la integración de estas dos bases de datos representó un ejercicio de limpieza, normalización y verificación cruzada que permitió construir una base consolidada y coherente para el análisis. No obstante, se debe reconocer que los conflictos encontrados —principalmente relacionados con la codificación, los nombres de los municipios y las diferencias estructurales— constituyen limitaciones inherentes a este tipo de procesos y requieren ser atendidos en futuras actualizaciones.
