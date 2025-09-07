@@ -86,3 +86,64 @@ desktop.ini
 # ======================================
 *.lnk
 ~$*
+# Archivos de entorno y dependencias de Python
+# ----------------------------------------------------------------
+.env
+.venv
+env/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de Jupyter Notebook
+# ----------------------------------------------------------------
+.ipynb_checkpoints
+
+# Archivos de configuración de IDEs y editores
+# ----------------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos generados por el sistema operativo
+# ----------------------------------------------------------------
+.DS_Store
+Thumbs.db
+
+# Archivos de datos
+# ----------------------------------------------------------------
+# IMPORTANTE: Descomenta y añade aquí los archivos de datos que sean
+# muy grandes o contengan información sensible para que no se suban
+# al repositorio de Git.
+#
+# Ejemplo:
+# Datos y conexiones/0_raw/dataset_muy_grande.csv
+# Datos y conexiones/0_raw/datos_privados.xlsx
+
+# Modelos entrenados
+# ----------------------------------------------------------------
+# Los modelos pueden ser muy pesados. Descomenta las siguientes líneas
+# si no quieres versionar los archivos de los modelos.
+#
+# Datos y conexiones/2_models/*.pkl
+# Datos y conexiones/2_models/*.joblib
+# Datos y conexiones/2_models/*.h5
+
+# Reportes y logs
+# ----------------------------------------------------------------
+# Descomenta si no quieres versionar los reportes generados.
+#
+# Doc/reports/*.pdf
+# Doc/reports/*.html
+*.log
+
+# Credenciales y secretos
+# ----------------------------------------------------------------
+# NUNCA subas credenciales o secretos a Git.
+*credentials*
+*.key
+*.secret
+config.ini
