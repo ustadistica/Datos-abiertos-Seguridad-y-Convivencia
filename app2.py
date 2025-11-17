@@ -1171,20 +1171,29 @@ if df is not None and not df.empty:
                     st.plotly_chart(fig, use_container_width=True)
                 
                 with col2:
+
+                    # Usar el Top N seleccionado en los filtros globales
+                    top_delitos_n = top_delitos.head(n_delitos)
+
                     fig = px.pie(
-                        values=top_delitos.head(5).values,
-                        names=top_delitos.head(5).index,
-                        title='Top 5 Delitos - Distribución',
+                        values=top_delitos_n.values,
+                        names=top_delitos_n.index,
+                        title=f'Top {n_delitos} Delitos - Distribución',
                         hole=0.4,
                         color_discrete_sequence=PALETA_ROJA
                     )
+
                     fig.update_traces(
                         textposition='inside',
                         textinfo='percent',
                         hovertemplate='<b>%{label}</b><br>Casos: %{value:,}<br>Porcentaje: %{percent}<extra></extra>'
                     )
+
                     fig.update_layout(showlegend=True, height=400)
+
                     st.plotly_chart(fig, use_container_width=True)
+
+
 
                 # Análisis detallado por delito seleccionado
                 if 'ARMAS_MEDIOS' in df_filtrado.columns:
