@@ -34,6 +34,8 @@ Para ejecutar este script, solo se requiere tener instalado **Python** y la libr
 ```bash
 pip install pandas openpyxl
 
+```
+
 Archivos de Entrada
 El script espera encontrar los siguientes archivos de datos en el entorno de ejecución, los cuales deben ser archivos de Excel con una estructura interna específica (la carga de datos está diseñada para manejar encabezados en la fila 10 o 9):
 
