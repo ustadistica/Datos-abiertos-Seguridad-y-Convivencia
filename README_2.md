@@ -1,7 +1,3 @@
-**FASE 2: Análisis de Delitos con Streamlit Dashboard**
-app2.py
-PY 102.58KB
-
 📊 Análisis de Delitos en Colombia - Dashboard Interactivo
 📋 Descripción
 Dashboard interactivo desarrollado con Streamlit para el análisis exploratorio de datos de seguridad y convivencia en Colombia. Esta aplicación permite visualizar y analizar patrones delictivos a través de múltiples dimensiones utilizando un modelo estrella para análisis OLAP.
@@ -47,8 +43,13 @@ Matplotlib/Seaborn - Gráficos estáticos
 NumPy - Cálculos numéricos
 
 📁 Estructura del Proyecto
-
-
+text
+proyecto-analisis-delitos/
+│
+├── app2.py                 # Aplicación principal Streamlit
+├── logo-santo-tomas.png    # Logo institucional (opcional)
+├── requirements.txt        # Dependencias del proyecto
+└── README.md              # Este archivo
 ⚙️ Instalación y Configuración
 Prerrequisitos
 Python 3.7 o superior
@@ -248,16 +249,14 @@ Abre un Pull Request
 Este proyecto es desarrollado por la Universidad Santo Tomás para fines académicos y de investigación.
 
 👥 Autores
-Karen Suárez, Ricardo Vargas. 
 Universidad Santo Tomás
 
 Consultoría e Investigación
 
-Semestre 2025 - 2
+Semestre 2024-2025
 
 📞 Soporte
 Para soporte técnico o preguntas sobre el proyecto, contactar al departamento de consultoría de la Universidad Santo Tomás.
 
 ¡Explora los datos y descubre insights valiosos para la seguridad ciudadana! 🎯
-
 
