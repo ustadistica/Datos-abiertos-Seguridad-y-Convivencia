@@ -306,25 +306,7 @@ Tendencias: Variaciones interanuales
 Local
 bash
 streamlit run app2.py
-En la Nube
-Streamlit Cloud
 
-Heroku
-
-AWS/Azure/GCP con contenedores Docker
-
-🤝 Contribuciones
-Las contribuciones son bienvenidas. Por favor:
-
-Fork el proyecto
-
-Crea una rama para tu feature (git checkout -b feature/AmazingFeature)
-
-Commit tus cambios (git commit -m 'Add some AmazingFeature')
-
-Push a la rama (git push origin feature/AmazingFeature)
-
-Abre un Pull Request
 
 📄 Licencia
 Este proyecto es desarrollado por la Universidad Santo Tomás para fines académicos y de investigación.
