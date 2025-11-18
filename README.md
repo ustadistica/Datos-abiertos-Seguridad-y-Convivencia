@@ -49,14 +49,7 @@ NumPy - Cálculos numéricos
 
 📁 Estructura del Proyecto
 
-<img width="537" height="156" alt="image" src="https://github.com/user-attachments/assets/5c1e08ec-9105-481a-8206-fca23c7e9f8b" />
 
-proyecto-analisis-delitos/
-│
-├── app2.py                 # Aplicación principal Streamlit
-├── logo-santo-tomas.png    # Logo institucional (opcional)
-├── requirements.txt        # Dependencias del proyecto
-└── README.md              # Este archivo
 ⚙️ Instalación y Configuración
 Prerrequisitos
 Python 3.7 o superior
