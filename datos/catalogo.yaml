@@ -1,0 +1,350 @@
+fuentes:
+  abigeato:
+    nombre: "Abigeato"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Hurto a cabezas de ganado"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20cabezas%20de%20ganado2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20cabezas%20de%20ganado.._0.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/abigeato.xls_2.xlsx"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/abigeato_6.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/abigeato_2020.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/abigeato_2019_3.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/abigeato_2018_2.xlsx"
+
+  amenazas:
+    nombre: "Amenazas"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Amenazas por diversos motivos"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Amenazas2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/amenzas..xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/amenazas_13.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/amenazas_11.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/amenazas_2020.xlsx"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/amenazas_2019_1.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/amenazas_2018_1.xlsx"
+
+  delitos_sexuales:
+    nombre: "Delitos sexuales"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Delitos de naturaleza sexual"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Delitos%20sexuales2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/delitos%20sexuales.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/delitos_sexuales_11.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/delitos_sexuales_9.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/delitos_sexuales_2020.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/delitos_sexuales_2019_0.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/delitos_sexuales_2018_0.xlsx"
+
+  extorsion:
+    nombre: "Extorsión"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Extorsión"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Extorsión2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/extorsion_11.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/extorsion_11.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/extorsion_9.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/extorsion_2020_1.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/extorsion_2019_2.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/extorsion_2018_3.xlsx"
+
+  homicidios:
+    nombre: "Homicidios"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Homicidios intencionales"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Homicidio%20Intencional2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/homicidio%20intencional_0.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Homicidio%20Intencional%202022.xlsx"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Homicidio%20Intencional%202021.xlsx"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Homicidio%20Intencional%202020.xlsx"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Homicidio%20Intencional%202019.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Homicidio%20Intencional%202018.xlsx"
+
+  homicidios_accidentes_transito:
+    nombre: "Homicidios en accidentes de tránsito"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Homicidios ocurridos en accidentes de tránsito"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Homicidios%20en%20accidente%20de%20tr%C3%A1nsito2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/homicidios%20en%20accidente%20de%20transito....xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/homicidios_en_accidente_de_transito_11.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/homicidios_en_accidente_de_transito_9.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/homicidios_accidente_de_transito_2020_2.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/homicidios_en_accidente_de_transito_2019.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/homicidios_en_accidente_de_transito_2018_1.xlsx"
+
+  hurto_personas:
+    nombre: "Hurto a personas"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Hurtos cometidos contra personas"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20personas2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20a%20personas.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_personas_17.xlsx"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_personas_9.xlsx"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_personas_2020_0.xlsx"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_personas_2019_0.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_personas_2018_1.xlsx"
+
+  hurto_residencias:
+    nombre: "Hurto a residencias"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Hurtos en residencias"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20residencias2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20a%20residencias....xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_residencias_4.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_residencias_5.xlsx"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_residencias_2020.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_residencias_2019_0.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_residencias_2018_1.xlsx"
+
+  hurto_automotores:
+    nombre: "Hurto de automotores"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Hurtos de vehículos automotores"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20automotores2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20automotores....xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_automotores_4.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_automotores_5.xlsx"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_automotores_2020_1.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_automotores_2019_0.xlsx"
+      "2018_v1": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_automotores_2018_1.xlsx"
+      "2018_v2": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_automotores_2018_2.xlsx"
+
+  hurto_motocicletas:
+    nombre: "Hurto de motocicletas"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Hurtos de motocicletas"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20motocicletas2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20a%20motocicletas....xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_motocicletas_7.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_motocicletas_5.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_motocicletas_2020.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_motocicletas_2019_0.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_motocicletas_2018_0.xlsx"
+
+  hurto_comercio:
+    nombre: "Hurto a comercio"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Hurtos a entidades comerciales"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20comercio2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20a%20comercio..._0.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_comercio_11.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_comercio_9.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_comercio_2020.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_comercio_2019_0.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_comercio_2018_1.xlsx"
+
+  hurto_entidades_financieras:
+    nombre: "Hurto a entidades financieras"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Hurtos a entidades financieras"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20entidades%20Financieras2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20entidades%20financieras.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_entidades_financieras_11.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_entidades_financieras_9.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_entidades_financieras_2020.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_entidades_financieras_2019_3.xlsx"
+      "2018_v1": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_entidades_financieras_2018_0.xlsx"
+      "2018_v2": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_entidades_financieras_2018_3.xlsx"
+
+  lesiones_accidente_transito:
+    nombre: "Lesiones en accidentes de tránsito"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Lesiones ocurridas en accidentes de tránsito"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Lesiones%20en%20accidente%20de%20tr%C3%A1nsito2024_2.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones%20en%20accidente%20de%20transito....xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_en_accidente_de_transito_7.xlsx"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_en_accidente_de_transito_5.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_en_accidente_de_transito_2020_1.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_en_accidente_de_transito_2019_0.xlsx"
+      "2018_v1": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_en_accidente_de_transito_2018_0.xlsx"
+      "2018_v2": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_en_accidente_de_transito_2018_1.xlsx"
+
+  lesiones_personales:
+    nombre: "Lesiones personales"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Lesiones personales"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Lesiones%20personales2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones%20personales..._0.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_personales_0.xlsx"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_personales_5.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_personales_2020.xlsx"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_personales_2019_0.xlsx"
+      "2018": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones_personales_2018_0.xlsx"
+
+  pirateria_terrestre:
+    nombre: "Piratería terrestre"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Piratería terrestre"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20pirater%C3%ADa%20terrestre2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20pirateria%20terrestre_1.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_pirateria_terrestre_11.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto_a_pirateria_terrestre_9.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/pirateria_terrestre_2020_1.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/pirateria_terrestre_2019_3.xlsx"
+      "2018_v1": "https://www.policia.gov.co/sites/default/files/delitos-impacto/pirateria_terrestre_2018_1.xlsx"
+      "2018_v2": "https://www.policia.gov.co/sites/default/files/delitos-impacto/pirateria_terrestre_2018_2.xlsx"
+
+  secuestro:
+    nombre: "Secuestro"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Secuestro"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Secuestro2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/secuestro..._0.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/secuestro_11.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/secuestro_9.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/secuestro_2020.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/secuestro_2019_3.xlsx"
+      "2018_v1": "https://www.policia.gov.co/sites/default/files/delitos-impacto/secuestro_2018_2.xlsx"
+      "2018_v2": "https://www.policia.gov.co/sites/default/files/delitos-impacto/secuestro_2018_3.xlsx"
+
+  terrorismo:
+    nombre: "Terrorismo"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Terrorismo"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Terrorismo2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/terrorismo_4.xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/terrorismo_11.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/terrorismo_9.xls"
+      "2020_v1": "https://www.policia.gov.co/sites/default/files/delitos-impacto/terrorismo_2020_0.xls"
+      "2020_v2": "https://www.policia.gov.co/sites/default/files/delitos-impacto/terrorismo_2020_1.xls"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/terrorismo_2019_2.xlsx"
+      "2018_v1": "https://www.policia.gov.co/sites/default/files/delitos-impacto/terrorismo_2018_0.xlsx"
+      "2018_v2": "https://www.policia.gov.co/sites/default/files/delitos-impacto/terrorismo_2018_2.xlsx"
+
+  violencia_intrafamiliar:
+    nombre: "Violencia intrafamiliar"
+    fuente: "Policía Nacional de Colombia"
+    portal: "https://www.policia.gov.co"
+    formato: "xlsx/xls"
+    descripcion: "Casos de violencia intrafamiliar"
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2024
+    periodicidad: "anual"
+    urls:
+      "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Violencia%20intrafamiliar2024_0.xlsx"
+      "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/violencia%20intrafamiliar....xlsx"
+      "2022": "https://www.policia.gov.co/sites/default/files/delitos-impacto/violencia_intrafamiliar_12.xls"
+      "2021": "https://www.policia.gov.co/sites/default/files/delitos-impacto/violencia_intrafamiliar_10.xls"
+      "2020": "https://www.policia.gov.co/sites/default/files/delitos-impacto/violencia_intrafamiliar_2020.xls_0.xlsx"
+      "2019": "https://www.policia.gov.co/sites/default/files/delitos-impacto/violencia_intrafamiliar_2019_0.xlsx"
+      "2018_v1": "https://www.policia.gov.co/sites/default/files/delitos-impacto/violencia_intrafamiliar_2018_0.xlsx"
+      "2018_v2": "https://www.policia.gov.co/sites/default/files/delitos-impacto/violencia_intrafamiliar_2018_1.xlsx"
