@@ -1,3 +1,11 @@
+# ======================================
+# DIRECTORIOS DE DATOS (nunca versionar)
+# ======================================
+datos/raw/
+datos/processed/
+datos/db/
+datos/interim/
+
 # Ignorar archivo Excel grande
 Datos/PPED-AreaSexoEdadMun-2018-2042_VP.xlsx
 
