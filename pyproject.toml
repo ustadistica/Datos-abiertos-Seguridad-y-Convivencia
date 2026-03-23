@@ -16,15 +16,21 @@ plotly = "^5.18"
 streamlit = "^1.31"
 jupyter = "^1.0"
 scikit-learn = "^1.4"
-    sodapy = "^2.2"
-    duckdb = "^1.0"
-    folium = "^0.16"
-    prophet = "^1.1"
+sodapy = "^2.2"
+duckdb = "^1.0"
+folium = "^0.16"
+prophet = "^1.1"
+pandera = "^0.18"
+pyyaml = "^6.0"
+requests = "^2.31"
+openpyxl = "^3.1"
+tqdm = "^4.66"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"
+pytest-cov = "^4.1"
 ruff = "^0.3"
-pandera = "^0.18"
+black = "^24.0"
 
 [build-system]
 requires = ["poetry-core"]
