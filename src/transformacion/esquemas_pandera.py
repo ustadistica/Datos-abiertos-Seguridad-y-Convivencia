@@ -6,8 +6,8 @@ Uso:
     schema_delito_consolidado.validate(df)
 """
 
-import pandera.pandas as pa
-from pandera.pandas import Column, DataFrameSchema, Check
+import pandera as pa
+from pandera import Column, DataFrameSchema, Check
 
 # ---------------------------------------------------------------------------
 # Schema del DataFrame consolidado (salida del pipeline ETL)

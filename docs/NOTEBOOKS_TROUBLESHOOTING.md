@@ -17,13 +17,13 @@ El notebook intenta cargar un archivo que aún no existe (ej: `delitos_unificado
 
 1. **Instalar dependencias**
    ```bash
-   pip install poetry
-   poetry install
+   py -3.12 -m pip install poetry
+   py -3.12 -m poetry install
    ```
 
 2. **Registrar kernel de Jupyter**
    ```bash
-   poetry run python -m ipykernel install --user \
+   py -3.12 -m poetry run python -m ipykernel install --user \
        --name=seguridad-convivencia \
        --display-name "Python (seguridad-convivencia)"
    ```
@@ -31,17 +31,17 @@ El notebook intenta cargar un archivo que aún no existe (ej: `delitos_unificado
 3. **Generar datos (ETL)**
    ```bash
    # Ingesta desde Policía Nacional
-   poetry run python -m src.ingesta.main
-   
+   py -3.12 -m poetry run python -m src.ingesta.main
+
    # Transformación y modelo estrella
-   poetry run python -m src.transformacion.main
+   py -3.12 -m poetry run python -m src.transformacion.main
    ```
 
 4. **Ejecutar notebooks**
    ```bash
-   poetry run jupyter notebook
+   py -3.12 -m poetry run jupyter notebook
    ```
-   
+
    En Jupyter, selecciona el kernel: **Python (seguridad-convivencia)**
 
 5. **Notebooks disponibles**
@@ -57,9 +57,9 @@ Si quieres usar el notebook `00_union_bases_legacy.ipynb`:
 
 2. **Ejecutar el notebook completo**
    ```bash
-   poetry run jupyter notebook notebooks/00_union_bases_legacy.ipynb
+   py -3.12 -m poetry run jupyter notebook notebooks/00_union_bases_legacy.ipynb
    ```
-   
+
    - Ejecuta **todas las celdas en orden** (Cell → Run All)
    - Este notebook descarga datos de la Policía Nacional y genera `delitos_unificado.csv`
    - Al finalizar, el archivo estará en la raíz del proyecto
@@ -75,16 +75,16 @@ Si quieres usar el notebook `00_union_bases_legacy.ipynb`:
 
 ```bash
 # Verifica que exista la base de datos
-ls datos/db/seguridad_convivencia.duckdb
+py -3.12 -m poetry run python -c "from pathlib import Path; print(Path('datos/db/seguridad_convivencia.duckdb').exists())"
 ```
 
-Si no existe → ejecuta el pipeline ETL (Opción A, paso 3).
+Si es `False` → ejecuta el pipeline ETL (Opción A, paso 3).
 
 ### Para el notebook `00_union_bases_legacy.ipynb`
 
 ```bash
 # Verifica que exista el CSV
-ls delitos_unificado.csv
+dir delitos_unificado.csv
 ```
 
 Si no existe → ejecuta el notebook legacy completo (Opción B, paso 2).
@@ -97,7 +97,7 @@ Si no existe → ejecuta el notebook legacy completo (Opción B, paso 2).
 
 ```bash
 # Re-registra el kernel
-poetry run python -m ipykernel install --user \
+py -3.12 -m poetry run python -m ipykernel install --user \
     --name=seguridad-convivencia \
     --display-name "Python (seguridad-convivencia)"
 ```
@@ -106,15 +106,15 @@ poetry run python -m ipykernel install --user \
 
 ```bash
 # Asegúrate de usar el entorno de Poetry
-poetry install
+py -3.12 -m poetry install
 ```
 
 ### El notebook se queda "Conectando al kernel"
 
 1. Cierra Jupyter
-2. `poetry env remove python`
-3. `poetry install`
-4. `poetry run python -m ipykernel install --user --name=seguridad-convivencia --display-name "Python (seguridad-convivencia)"`
+2. `py -3.12 -m poetry env remove python`
+3. `py -3.12 -m poetry install`
+4. `py -3.12 -m poetry run python -m ipykernel install --user --name=seguridad-convivencia --display-name "Python (seguridad-convivencia)"`
 5. Reinicia Jupyter
 
 ### Error al cargar DuckDB
@@ -134,7 +134,7 @@ Si es `False` → ejecuta el pipeline ETL.
 
 ```bash
 # Ver entorno virtual de Poetry
-poetry env info
+py -3.12 -m poetry env info
 
 # Listar kernels disponibles
 jupyter kernelspec list
@@ -143,7 +143,7 @@ jupyter kernelspec list
 jupyter kernelspec uninstall seguridad-convivencia
 
 # Reinstalar dependencias
-poetry install --no-cache
+py -3.12 -m poetry install --no-cache
 ```
 
 ---
