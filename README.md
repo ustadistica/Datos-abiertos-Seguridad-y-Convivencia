@@ -60,15 +60,48 @@ cd Datos-abiertos-Seguridad-y-Convivencia
 pip install poetry
 poetry install
 
-# Ejecutar pipeline de ingesta
+# Registrar el kernel de Jupyter (importante para notebooks)
+poetry run python -m ipykernel install --user \
+    --name=seguridad-convivencia \
+    --display-name "Python (seguridad-convivencia)"
+```
+
+## Ejecutar el Pipeline ETL
+
+Antes de ejecutar los notebooks o el dashboard, debes generar los datos:
+
+```bash
+# 1. Ingesta de datos desde Policía Nacional
 poetry run python -m src.ingesta.main
 
-# Ejecutar pipeline de transformacion
+# 2. Transformación y creación del modelo estrella
 poetry run python -m src.transformacion.main
+```
 
-# Lanzar dashboard
+## Ejecutar Notebooks
+
+```bash
+# Abrir Jupyter con el kernel del proyecto
+poetry run jupyter notebook
+
+# Luego selecciona el kernel "Python (seguridad-convivencia)"
+```
+
+**Notebooks disponibles:**
+- `notebooks/00_union_bases_legacy.ipynb` — Pipeline legacy de descarga y unión de bases (genera `delitos_unificado.csv`)
+- `notebooks/01_eda.ipynb` — Exploración inicial del modelo estrella en DuckDB
+
+## Ejecutar Dashboard
+
+```bash
 poetry run streamlit run app/streamlit_app.py
 ```
+
+## Troubleshooting
+
+Si tienes problemas con los notebooks (kernel crashea, errores de carga):
+
+→ Consulta [`docs/NOTEBOOKS_TROUBLESHOOTING.md`](docs/NOTEBOOKS_TROUBLESHOOTING.md)
 
 ## Cronograma -- CRISP-DM
 
