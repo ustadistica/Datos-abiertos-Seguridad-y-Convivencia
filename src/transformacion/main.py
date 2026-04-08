@@ -4,21 +4,19 @@ Punto de entrada del pipeline de transformacion.
 Uso:
     poetry run python -m src.transformacion.main
 
-Este script toma los datos crudos de datos/raw/, aplica limpieza,
-normalizacion y joins, y genera los datos procesados en datos/processed/.
+Pasos:
+    1. ETL: carga Excel de datos/raw/ → Parquet en datos/processed/
+    2. Modelo estrella: Parquet → DuckDB en datos/db/
 """
 
-from pathlib import Path
-
-RAW_DIR = Path("datos/raw")
-PROCESSED_DIR = Path("datos/processed")
+from src.transformacion.modelo_estrella import ejecutar_modelo_estrella
+from src.transformacion.pipeline import ejecutar_pipeline
 
 
 def main():
-    """Ejecutar pipeline de transformacion completo."""
-    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    # TODO: Implementar transformaciones del proyecto
-    print("Pipeline de transformacion ejecutado correctamente.")
+    """Ejecutar pipeline ETL completo y construir modelo estrella."""
+    ejecutar_pipeline()
+    ejecutar_modelo_estrella()
 
 
 if __name__ == "__main__":

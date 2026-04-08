@@ -51,24 +51,59 @@ Datos-abiertos-Seguridad-y-Convivencia/
 
 ## Instalacion
 
+**Requisito:** Python 3.10, 3.11 o 3.12 (no compatible con Python 3.13+)
+
 ```bash
 # Clonar el repositorio
 git clone https://github.com/ustadistica/Datos-abiertos-Seguridad-y-Convivencia.git
 cd Datos-abiertos-Seguridad-y-Convivencia
 
-# Instalar dependencias con Poetry
-pip install poetry
-poetry install
+# Instalar dependencias con Poetry (usa Python 3.12)
+py -3.12 -m pip install poetry
+py -3.12 -m poetry install
 
-# Ejecutar pipeline de ingesta
-poetry run python -m src.ingesta.main
-
-# Ejecutar pipeline de transformacion
-poetry run python -m src.transformacion.main
-
-# Lanzar dashboard
-poetry run streamlit run app/streamlit_app.py
+# Registrar el kernel de Jupyter (importante para notebooks)
+py -3.12 -m poetry run python -m ipykernel install --user \
+    --name=seguridad-convivencia \
+    --display-name "Python (seguridad-convivencia)"
 ```
+
+## Ejecutar el Pipeline ETL
+
+Antes de ejecutar los notebooks o el dashboard, debes generar los datos:
+
+```bash
+# 1. Ingesta de datos desde Policía Nacional
+py -3.12 -m poetry run python -m src.ingesta.main
+
+# 2. Transformación y creación del modelo estrella
+py -3.12 -m poetry run python -m src.transformacion.main
+```
+
+## Ejecutar Notebooks
+
+```bash
+# Abrir Jupyter con el kernel del proyecto
+py -3.12 -m poetry run jupyter notebook
+
+# Luego selecciona el kernel "Python (seguridad-convivencia)"
+```
+
+**Notebooks disponibles:**
+- `notebooks/00_union_bases_legacy.ipynb` — Pipeline legacy de descarga y unión de bases (genera `delitos_unificado.csv`)
+- `notebooks/01_eda.ipynb` — Exploración inicial del modelo estrella en DuckDB
+
+## Ejecutar Dashboard
+
+```bash
+py -3.12 -m poetry run streamlit run app/streamlit_app.py
+```
+
+## Troubleshooting
+
+Si tienes problemas con los notebooks (kernel crashea, errores de carga):
+
+→ Consulta [`docs/NOTEBOOKS_TROUBLESHOOTING.md`](docs/NOTEBOOKS_TROUBLESHOOTING.md)
 
 ## Cronograma -- CRISP-DM
 

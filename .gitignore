@@ -39,6 +39,7 @@ __pycache__/
 # Mantener solo si realmente quieres versionar un archivo de ejemplo
 !ejemplo_*.csv
 !ejemplo_*.xlsx
+!artifacts/calidad_catalogo_*.csv
 
 # ======================================
 # ARCHIVOS DE R
