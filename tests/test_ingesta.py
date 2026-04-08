@@ -1,4 +1,4 @@
-"""Tests para el módulo de ingesta (sin red, sin disco de datos)."""
+"""Tests para el módulo de ingesta (sin red y con archivos temporales)."""
 
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -44,6 +44,17 @@ def test_determinar_extension_default_es_xlsx():
     assert determinar_extension("https://example.com/archivo_sin_ext") == ".xlsx"
 
 
+def test_detectar_extension_por_content_type_csv():
+    from src.ingesta.descargar_fuentes import detectar_extension
+
+    extension = detectar_extension(
+        "https://example.com/download",
+        content_type="text/csv; charset=utf-8",
+        filename=None,
+    )
+    assert extension == ".csv"
+
+
 def test_determinar_extension_xls_no_confunde_xlsx():
     from src.ingesta.descargar_fuentes import determinar_extension
     # Una URL que termina en .xlsx NO debe detectarse como .xls
@@ -86,18 +97,21 @@ def test_construir_items_excluye_fuentes_poblacion():
 
 def test_descargar_archivo_maneja_http_error(tmp_path):
     from src.ingesta.descargar_fuentes import descargar_archivo
-    import requests
 
-    with patch("src.ingesta.descargar_fuentes.requests.get") as mock_get:
+    with patch("src.ingesta.descargar_fuentes.crear_sesion_http") as mock_crear_sesion:
+        mock_get = MagicMock()
         mock_resp = MagicMock()
-        mock_resp.raise_for_status.side_effect = requests.HTTPError("404 Not Found")
+        mock_resp.status_code = 404
         mock_get.return_value = mock_resp
+        mock_sesion = MagicMock()
+        mock_sesion.get = mock_get
+        mock_crear_sesion.return_value = mock_sesion
 
         destino = tmp_path / "test.xlsx"
         resultado = descargar_archivo("https://example.com/fake.xlsx", destino)
 
     assert resultado["status"] == "http_error"
-    assert "404" in resultado["error"]
+    assert "HTTP 404" in resultado["error"]
     assert not destino.exists()
 
 
@@ -105,8 +119,12 @@ def test_descargar_archivo_maneja_timeout(tmp_path):
     from src.ingesta.descargar_fuentes import descargar_archivo
     import requests
 
-    with patch("src.ingesta.descargar_fuentes.requests.get") as mock_get:
+    with patch("src.ingesta.descargar_fuentes.crear_sesion_http") as mock_crear_sesion:
+        mock_get = MagicMock()
         mock_get.side_effect = requests.Timeout()
+        mock_sesion = MagicMock()
+        mock_sesion.get = mock_get
+        mock_crear_sesion.return_value = mock_sesion
 
         destino = tmp_path / "test.xlsx"
         resultado = descargar_archivo("https://example.com/fake.xlsx", destino)
@@ -118,18 +136,74 @@ def test_descargar_archivo_maneja_timeout(tmp_path):
 def test_descargar_archivo_exitoso(tmp_path):
     from src.ingesta.descargar_fuentes import descargar_archivo
 
-    contenido_fake = b"PK\x03\x04" + b"\x00" * 100  # cabecera ZIP falsa
+    contenido_fake = b"col1,col2\n1,2\n"
 
-    with patch("src.ingesta.descargar_fuentes.requests.get") as mock_get:
-        mock_resp = MagicMock()
-        mock_resp.raise_for_status.return_value = None
-        mock_resp.content = contenido_fake
-        mock_get.return_value = mock_resp
+    class ResponseFake:
+        status_code = 200
+        headers = {"Content-Type": "text/csv"}
+
+        def iter_content(self, chunk_size=65536):
+            yield contenido_fake
+
+    with patch("src.ingesta.descargar_fuentes.crear_sesion_http") as mock_crear_sesion:
+        mock_sesion = MagicMock()
+        mock_sesion.get.return_value = ResponseFake()
+        mock_crear_sesion.return_value = mock_sesion
+
+        destino = tmp_path / "output.xlsx"  # debe corregirse a .csv por content-type
+        resultado = descargar_archivo("https://example.com/real.xlsx", destino)
+
+    assert resultado["status"] == "ok"
+    assert resultado["bytes"] == len(contenido_fake)
+    assert (tmp_path / "output.csv").exists()
+    assert (tmp_path / "output.csv").read_bytes() == contenido_fake
+
+
+def test_descargar_archivo_reporta_columnas_clave_faltantes_si_no_se_puede_leer(tmp_path):
+    from src.ingesta.descargar_fuentes import descargar_archivo
+
+    contenido_fake = b"contenido no tabular"
+
+    class ResponseFake:
+        status_code = 200
+        headers = {"Content-Type": "application/octet-stream"}
+
+        def iter_content(self, chunk_size=65536):
+            yield contenido_fake
+
+    with patch("src.ingesta.descargar_fuentes.crear_sesion_http") as mock_crear_sesion:
+        mock_sesion = MagicMock()
+        mock_sesion.get.return_value = ResponseFake()
+        mock_crear_sesion.return_value = mock_sesion
 
         destino = tmp_path / "output.xlsx"
         resultado = descargar_archivo("https://example.com/real.xlsx", destino)
 
     assert resultado["status"] == "ok"
-    assert resultado["bytes"] == len(contenido_fake)
-    assert destino.exists()
-    assert destino.read_bytes() == contenido_fake
+    assert isinstance(resultado["issues"], list)
+    assert any(issue.startswith("lectura_fallida:") for issue in resultado["issues"])
+
+
+def test_descargar_archivo_registra_formato_y_hash(tmp_path):
+    from src.ingesta.descargar_fuentes import descargar_archivo
+
+    contenido_fake = b"A,B\n1,2\n"
+
+    class ResponseFake:
+        status_code = 200
+        headers = {"Content-Type": "text/csv"}
+
+        def iter_content(self, chunk_size=65536):
+            yield contenido_fake
+
+    with patch("src.ingesta.descargar_fuentes.crear_sesion_http") as mock_crear_sesion:
+        mock_sesion = MagicMock()
+        mock_sesion.get.return_value = ResponseFake()
+        mock_crear_sesion.return_value = mock_sesion
+
+        destino = tmp_path / "out.xlsx"
+        resultado = descargar_archivo("https://example.com/out.xlsx", destino)
+
+    assert resultado["formato"] == "csv"
+    assert isinstance(resultado["sha256"], str)
+    assert len(resultado["sha256"]) == 64
