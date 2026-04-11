@@ -24,7 +24,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = REPO_ROOT / "datos" / "raw"
 PROCESSED_DIR = REPO_ROOT / "datos" / "processed"
-DANE_PATH = RAW_DIR / "poblacion" / "dane_poblacion_municipios_2018_2024.xlsx"
+DANE_PATH = RAW_DIR / "poblacion" / "dane_poblacion_municipios_2018_2024.csv"
 
 # ---------------------------------------------------------------------------
 # Mapeo de nombre de carpeta ->etiqueta legible de TIPO_DELITO
@@ -74,6 +74,9 @@ RENOMBRAR_COLUMNAS = {
     "CÓDIGO_DANE": "CODIGO_DANE",
     "COD._DANE": "CODIGO_DANE",
     "C_DANE": "CODIGO_DANE",
+    # MUNICIPIO TYPOS
+    "MUNICIPO": "MUNICIPIO",
+    "MUNICICPIO": "MUNICIPIO",
 }
 
 BASURA_REGEX = re.compile(
@@ -114,6 +117,27 @@ def _normalizar_columnas(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def _detectar_engine(ruta: Path) -> str:
+    """Selecciona el engine correcto de pandas según la extensión del archivo."""
+    return "xlrd" if ruta.suffix.lower() == ".xls" else "openpyxl"
+
+
+def _detectar_header_row(ruta: Path, engine: str) -> int | None:
+    """
+    Escanea las primeras 20 filas buscando la que contiene 'DEPARTAMENTO'.
+    Retorna el índice de la fila header o None si no se encuentra.
+    """
+    try:
+        df_scan = pd.read_excel(ruta, engine=engine, header=None, nrows=20)
+        for idx, row in df_scan.iterrows():
+            valores = row.astype(str).str.strip().str.upper()
+            if valores.str.contains("DEPARTAMENTO", na=False).any():
+                return int(idx)
+    except Exception as e:
+        print(f"    [WARN] Error escaneando header de {ruta.name}: {e}")
+    return None
+
+
 def cargar_archivo(ruta: Path, tipo_delito: str) -> pd.DataFrame:
     """
     Carga un archivo Excel de delitos, detecta automáticamente el header.
@@ -127,40 +151,48 @@ def cargar_archivo(ruta: Path, tipo_delito: str) -> pd.DataFrame:
         "AGRUPA_EDAD_PERSONA", "CANTIDAD",
     ]
 
-    for header_row in [10, 9]:
-        try:
-            df = pd.read_excel(ruta, header=header_row)
-            df = _normalizar_columnas(df)
+    engine = _detectar_engine(ruta)
 
-            if "DEPARTAMENTO" not in df.columns:
-                continue
+    # Paso 1: detectar header dinámicamente
+    header_row = _detectar_header_row(ruta, engine)
+    if header_row is None:
+        print(f"    [ERROR] No se encontro 'DEPARTAMENTO' en {ruta.name} (primeras 20 filas)")
+        return pd.DataFrame()
 
-            # Seleccionar solo columnas conocidas que existan
-            cols_presentes = [c for c in columnas_objetivo if c in df.columns]
-            df = df[cols_presentes]
+    try:
+        df = pd.read_excel(ruta, engine=engine, header=header_row)
+        df = _normalizar_columnas(df)
 
-            # Eliminar filas completamente vacías
-            df = df.dropna(how="all")
+        if "DEPARTAMENTO" not in df.columns:
+            print(f"    [ERROR] Columna DEPARTAMENTO no encontrada tras normalizar en {ruta.name}")
+            return pd.DataFrame()
 
-            # Eliminar filas de basura (totales, leyendas, metadata del Excel)
-            for col in ["DEPARTAMENTO", "ARMAS_MEDIOS"]:
-                if col in df.columns:
-                    df = df[
-                        ~df[col].astype(str).str.contains(BASURA_REGEX, na=False)
-                    ]
+        # Seleccionar solo columnas conocidas que existan
+        cols_presentes = [c for c in columnas_objetivo if c in df.columns]
+        df = df[cols_presentes]
 
-            if df.empty:
-                continue
+        # Eliminar filas completamente vacías
+        df = df.dropna(how="all")
 
-            # TIPO_DELITO desde carpeta
-            df["TIPO_DELITO"] = tipo_delito
+        # Eliminar filas de basura (totales, leyendas, metadata del Excel)
+        for col in ["DEPARTAMENTO", "ARMAS_MEDIOS"]:
+            if col in df.columns:
+                df = df[
+                    ~df[col].astype(str).str.contains(BASURA_REGEX, na=False)
+                ]
 
-            return df
+        if df.empty:
+            print(f"    [WARN] {ruta.name} quedo vacio despues de limpiar basura")
+            return pd.DataFrame()
 
-        except Exception:
-            continue
+        # TIPO_DELITO desde carpeta
+        df["TIPO_DELITO"] = tipo_delito
 
-    return pd.DataFrame()
+        return df
+
+    except Exception as e:
+        print(f"    [ERROR] Error procesando {ruta.name}: {e}")
+        return pd.DataFrame()
 
 
 def _limpiar_departamento(s: pd.Series) -> pd.Series:
@@ -289,6 +321,7 @@ def consolidar_delitos() -> pd.DataFrame:
 def cargar_poblacion_dane() -> pd.DataFrame | None:
     """
     Carga el archivo de población DANE si existe.
+    Soporta múltiples formatos de CSV del DANE (separadores, encodings, columnas).
     Retorna None si el archivo no está disponible.
     """
     if not DANE_PATH.exists():
@@ -300,12 +333,104 @@ def cargar_poblacion_dane() -> pd.DataFrame | None:
         )
         return None
 
-    df = pd.read_excel(DANE_PATH)
-    df.columns = df.columns.astype(str).str.strip().str.upper()
-    df["DEPARTAMENTO"] = _limpiar_departamento(df["DEPARTAMENTO"])
-    df["MUNICIPIO"] = _limpiar_municipio(df["MUNICIPIO"])
-    df["AÑO"] = pd.to_numeric(df["AÑO"], errors="coerce").astype(int)
+    # Intentar múltiples combinaciones de encoding y separador
+    df = None
+    for enc in ("utf-8-sig", "utf-8", "latin-1", "cp1252"):
+        for sep in (";", ",", "\t"):
+            try:
+                df = pd.read_csv(DANE_PATH, encoding=enc, sep=sep)
+                if len(df.columns) >= 3:
+                    break
+                df = None
+            except Exception:
+                df = None
+        if df is not None:
+            break
+
+    if df is None:
+        print(f"  [ERROR] No se pudo leer el archivo DANE: {DANE_PATH.name}")
+        return None
+
+    # Normalizar nombres de columnas
+    df.columns = (
+        df.columns.astype(str)
+        .str.strip()
+        .str.upper()
+        .str.replace(r"\s+", "_", regex=True)
+    )
+
+    print(f"  DANE columnas detectadas: {df.columns.tolist()}")
+
+    # Mapear columnas del DANE al esquema esperado
+    col_map = {}
+    for col in df.columns:
+        col_clean = col.replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N")
+        if col_clean in ("DPNOM", "DEPARTAMENTO", "NOMBRE_DEPARTAMENTO"):
+            col_map[col] = "DEPARTAMENTO"
+        elif col_clean in ("ANO", "ANNO", "ANO_CENSAL"):
+            col_map[col] = "AÑO"
+        elif col_clean in ("TOTAL", "POBLACION", "POBLACION_TOTAL"):
+            col_map[col] = "POBLACION"
+        elif col_clean in ("AREA_GEOGRAFICA", "AREA"):
+            col_map[col] = "AREA_GEOGRAFICA"
+        elif col_clean in ("MUNICIPIO", "MPNOM", "NOMBRE_MUNICIPIO", "MPIO"):
+            col_map[col] = "MUNICIPIO"
+        elif col_clean in ("DP", "COD_DEPTO", "CODIGO_DEPARTAMENTO"):
+            col_map[col] = "COD_DEPTO"
+
+    df = df.rename(columns=col_map)
+
+    # Si tiene columna AREA_GEOGRAFICA, filtrar solo filas "Total"
+    if "AREA_GEOGRAFICA" in df.columns:
+        df = df[df["AREA_GEOGRAFICA"].astype(str).str.strip().str.lower() == "total"]
+        df = df.drop(columns=["AREA_GEOGRAFICA"])
+
+    # Verificar columnas mínimas
+    if "DEPARTAMENTO" not in df.columns:
+        print("  [ERROR] DANE: No se encontro columna DEPARTAMENTO/DPNOM")
+        return None
+    if "POBLACION" not in df.columns:
+        print("  [ERROR] DANE: No se encontro columna POBLACION/TOTAL")
+        return None
+    if "AÑO" not in df.columns:
+        print("  [ERROR] DANE: No se encontro columna AÑO")
+        return None
+
+    # Limpiar valores de población (quitar puntos de miles: "4.972.962" → 4972962)
+    df["POBLACION"] = (
+        df["POBLACION"]
+        .astype(str)
+        .str.replace(".", "", regex=False)
+        .str.replace(",", "", regex=False)
+        .str.strip()
+    )
     df["POBLACION"] = pd.to_numeric(df["POBLACION"], errors="coerce")
+
+    df["AÑO"] = pd.to_numeric(
+        df["AÑO"].astype(str).str.strip(), errors="coerce"
+    )
+    df = df.dropna(subset=["AÑO", "POBLACION"])
+    df["AÑO"] = df["AÑO"].astype(int)
+
+    df["DEPARTAMENTO"] = _limpiar_departamento(df["DEPARTAMENTO"])
+
+    # Si no hay columna MUNICIPIO, es datos departamentales — crear una columna placeholder
+    if "MUNICIPIO" not in df.columns:
+        print("  [INFO] DANE: datos a nivel departamental (sin municipio)")
+        df["MUNICIPIO"] = "TOTAL DEPARTAMENTO"
+
+    df["MUNICIPIO"] = _limpiar_municipio(df["MUNICIPIO"])
+
+    # Eliminar filas sin departamento válido
+    df = df.dropna(subset=["DEPARTAMENTO"])
+
+    # Seleccionar columnas finales
+    cols_finales = ["DEPARTAMENTO", "MUNICIPIO", "AÑO", "POBLACION"]
+    if "COD_DEPTO" in df.columns:
+        cols_finales.append("COD_DEPTO")
+    df = df[[c for c in cols_finales if c in df.columns]]
+
+    print(f"  DANE: {len(df):,} registros cargados ({df['AÑO'].min()}-{df['AÑO'].max()})")
     return df
 
 
