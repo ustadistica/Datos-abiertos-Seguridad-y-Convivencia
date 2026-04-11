@@ -354,7 +354,7 @@ fuentes_poblacion:
     nombre: "Proyecciones de población DANE por municipio"
     fuente: "DANE — Departamento Administrativo Nacional de Estadística"
     portal: "https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion"
-    formato: "xlsx"
+    formato: "csv"
     descripcion: >
       Proyecciones de población por municipio y año 2018-2024.
       Necesario para calcular tasas de delitos por 100.000 habitantes.
@@ -362,13 +362,10 @@ fuentes_poblacion:
       inicio: 2018
       fin: 2024
     nota_descarga: >
-      Descarga manual requerida. El archivo no está disponible como descarga
-      directa automatizable. Visitar el portal DANE, sección
-      'Proyecciones de población municipales y departamentales 2018-2035'.
-      Guardar como: datos/raw/poblacion/dane_poblacion_municipios_2018_2024.xlsx
+      Descarga manual requerida. Guardar el archivo en formato CSV en la ruta indicada.
     columnas_requeridas:
       - DEPARTAMENTO
       - MUNICIPIO
       - AÑO
       - POBLACION
-    archivo_esperado: "datos/raw/poblacion/dane_poblacion_municipios_2018_2024.xlsx"
+    archivo_esperado: "datos/raw/poblacion/dane_poblacion_municipios_2018_2024.csv"
