@@ -95,6 +95,8 @@ py -3.12 -m poetry run jupyter notebook
 
 ## Ejecutar Dashboard
 
+El dashboard interactivo principal (Sprint 3) incluye visualizaciones geoespaciales con mapas coropléticos departamentales (Folium) y mapas de burbujas a nivel municipal (Plotly), integrados dinámicamente con DuckDB.
+
 ```bash
 py -3.12 -m poetry run streamlit run app/streamlit_app.py
 ```
@@ -111,13 +113,13 @@ Si tienes problemas con los notebooks (kernel crashea, errores de carga):
 
 Reestructuración del repo + migración a Poetry. Renombrar archivos, consolidar links en `datos/catalogo.yaml`, reorganizar según template estándar.
 
-### Sprint 2 (Sem 3-4)
+### Sprint 2 (Sem 3-4) - **[COMPLETADO]**
 
-Modelo estrella en DuckDB: `fact_delitos`, `dim_municipio`, `dim_delito`, `dim_tiempo`, `dim_arma`. Integrar datos de población DANE para tasas por 100K hab.
+Modelo estrella en DuckDB: `fact_delitos`, `dim_ubicacion`, `dim_delito`, `dim_fecha`. Integración de datos de población para calcular tasas por 100K hab. y normalización de años recientes (2022).
 
-### Sprint 3 (Sem 5-7)
+### Sprint 3 (Sem 5-7) - **[EN PROGRESO]**
 
-Dashboard Streamlit de producción: mapa nacional con tasas, series temporales interactivas, comparativo interanual, análisis de estacionalidad.
+Dashboard Streamlit de producción: Módulo geoespacial implementado (mapa nacional con tasas a nivel departamento y ranking de municipios). Pendiente: series temporales interactivas, comparativo interanual, análisis de estacionalidad.
 
 ### Sprint 4 (Sem 8)
 
