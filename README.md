@@ -95,7 +95,11 @@ py -3.12 -m poetry run jupyter notebook
 
 ## Ejecutar Dashboard
 
-El dashboard interactivo principal (Sprint 3) incluye visualizaciones geoespaciales con mapas coropléticos departamentales (Folium) y mapas de burbujas a nivel municipal (Plotly), integrados dinámicamente con DuckDB.
+El dashboard interactivo principal (Sprint 3) es una aplicación avanzada que incluye:
+- **🗺️ Análisis Geoespacial**: Mapas coropléticos departamentales (Folium) y mapas de burbujas municipales (Plotly).
+- **📈 Análisis Temporal**: Módulo interactivo de series de tiempo para comparar tendencias delictivas entre 2018 y 2024.
+- **🕹️ Navegación Avanzada**: Soporte para navegación global mediante teclado (teclas de flecha ← / →) y controles segmentados rápidos.
+- **🎨 Interfaz Premium**: Tema institucional Ustadistica (Light Mode) con visualizaciones dinámicas integradas con DuckDB.
 
 ```bash
 py -3.12 -m poetry run streamlit run app/streamlit_app.py
@@ -117,9 +121,13 @@ Reestructuración del repo + migración a Poetry. Renombrar archivos, consolidar
 
 Modelo estrella en DuckDB: `fact_delitos`, `dim_ubicacion`, `dim_delito`, `dim_fecha`. Integración de datos de población para calcular tasas por 100K hab. y normalización de años recientes (2022).
 
-### Sprint 3 (Sem 5-7) - **[EN PROGRESO]**
+### Sprint 3 (Sem 5-7) - **[COMPLETADO]**
 
-Dashboard Streamlit de producción: Módulo geoespacial implementado (mapa nacional con tasas a nivel departamento y ranking de municipios). Pendiente: series temporales interactivas, comparativo interanual, análisis de estacionalidad.
+Dashboard Streamlit de producción implementado:
+- Módulo geoespacial (mapas de tasas por departamento y burbujas municipales).
+- Módulo de análisis temporal (tendencias de delitos 2018-2024).
+- Navegación optimizada (teclado + segmented controls).
+- Cálculo dinámico de métricas rigurosas (tasas ponderadas).
 
 ### Sprint 4 (Sem 8)
 
