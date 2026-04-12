@@ -272,11 +272,56 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================================
-# TABS NAVIGATION
+# KEYBOARD NAVIGATION (JS INJECTION)
 # ============================================================================
-tab_mapa, tab_series = st.tabs(["🗺️ Mapa Geográfico", "📈 Análisis Temporal"])
+st.components.v1.html("""
+<script>
+    const doc = window.parent.document;
+    
+    function handleKeydown(e) {
+        // Ignorar si el usuario está escribiendo en un input
+        const active = doc.activeElement;
+        if (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA') return;
 
-with tab_mapa:
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            const buttons = Array.from(doc.querySelectorAll('button'));
+            const mapBtn = buttons.find(b => b.innerText.includes('Mapa Geográfico'));
+            const seriesBtn = buttons.find(b => b.innerText.includes('Análisis Temporal'));
+            
+            if (e.key === 'ArrowRight' && seriesBtn) {
+                // Si ya estamos en series, opcionalmente loopear (según plan)
+                seriesBtn.click();
+            } else if (e.key === 'ArrowLeft' && mapBtn) {
+                mapBtn.click();
+            }
+        }
+    }
+
+    // Remover listener previo para evitar duplicados en re-runs
+    doc.removeEventListener('keydown', handleKeydown);
+    doc.addEventListener('keydown', handleKeydown);
+</script>
+""", height=0)
+
+# ============================================================================
+# NAVEGACIÓN (BOTONES CON TECLADO)
+# ============================================================================
+nav_col1, nav_col2, nav_col3 = st.columns([1, 1.5, 1])
+with nav_col2:
+    vista = st.segmented_control(
+        "🕹️ Navegación Interactiva",
+        options=["Mapa Geográfico", "Análisis Temporal"],
+        default="Mapa Geográfico",
+        selection_mode="single",
+        label_visibility="collapsed"
+    )
+
+if not vista:
+    vista = "Mapa Geográfico"
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+if vista == "Mapa Geográfico":
         # ============================================================================
         # LOAD METADATA
         # ============================================================================
@@ -630,7 +675,7 @@ with tab_mapa:
     )
     st.plotly_chart(fig_bar, use_container_width=True)
     
-with tab_series:
+else:
     renderizar_series_tiempo()
 
 # ============================================================================
