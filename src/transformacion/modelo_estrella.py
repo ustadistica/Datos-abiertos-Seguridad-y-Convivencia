@@ -34,15 +34,22 @@ DB_PATH = DB_DIR / "seguridad_convivencia.duckdb"
 # ---------------------------------------------------------------------------
 
 def _build_dim_fecha(df: pd.DataFrame) -> pd.DataFrame:
-    """dim_fecha: surrogate key sobre AÑO."""
+    """dim_fecha: surrogate key sobre FECHA_HECHO."""
     dim = (
-        df[["AÑO"]]
+        df[["FECHA_HECHO", "AÑO"]]
         .drop_duplicates()
-        .sort_values("AÑO")
+        .sort_values("FECHA_HECHO")
         .reset_index(drop=True)
     )
     dim.insert(0, "fecha_key", range(1, len(dim) + 1))
+    
+    dim["mes"] = dim["FECHA_HECHO"].dt.month
+    dim["dia"] = dim["FECHA_HECHO"].dt.day
+    dim["dia_semana"] = dim["FECHA_HECHO"].dt.dayofweek
+    dim["fecha"] = dim["FECHA_HECHO"]
+    
     dim = dim.rename(columns={"AÑO": "anio"})
+    dim = dim.drop(columns=["FECHA_HECHO"])
     return dim
 
 
@@ -118,8 +125,8 @@ def _build_fact_delitos(
 
     # Join fecha
     fact = fact.merge(
-        dim_fecha.rename(columns={"anio": "AÑO"}),
-        on="AÑO",
+        dim_fecha.rename(columns={"anio": "AÑO", "fecha": "FECHA_HECHO"}),
+        on=["FECHA_HECHO", "AÑO"],
         how="left",
     )
 
@@ -197,9 +204,8 @@ def _enriquecer_con_poblacion(
         LEFT JOIN dim_ubicacion u USING (ubicacion_key)
         LEFT JOIN dim_fecha d USING (fecha_key)
         LEFT JOIN poblacion_dane p
-            ON upper(p.DEPARTAMENTO) = upper(u.departamento)
-            AND upper(p.MUNICIPIO)   = upper(u.municipio)
-            AND p.AÑO                = d.anio
+            ON (p.CODIGO_DANE IS NOT NULL AND p.CODIGO_DANE = u.codigo_dane AND p.AÑO = d.anio)
+            OR (p.CODIGO_DANE IS NULL AND upper(p.DEPARTAMENTO) = upper(u.departamento) AND upper(p.MUNICIPIO) = upper(u.municipio) AND p.AÑO = d.anio)
     """)
 
 

@@ -43,8 +43,8 @@ CHOROPLETH = ["#FFF7EC", "#FEE8C8", "#FDD49E", "#FDBB84",
 
 # Mapeo de nombres de departamento GeoJSON → nombres en la BD
 DEPTO_NAME_MAP: dict[str, str] = {
-    "SANTAFE DE BOGOTA D.C": "CUNDINAMARCA",
-    "BOGOTA D.C": "CUNDINAMARCA",
+    "SANTAFE DE BOGOTA D.C": "BOGOTA, D.C.",
+    "BOGOTA D.C": "BOGOTA, D.C.",
     "NARINO": "NARIÑO",
     "CORDOBA": "CÓRDOBA",
     "BOYACA": "BOYACÁ",

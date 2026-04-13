@@ -83,21 +83,19 @@ BASURA_REGEX = re.compile(
 )
 
 
-def _convertir_fecha_a_anio(valor) -> int | None:
-    """Extrae el año de un valor FECHA_HECHO (int YYYYMMDD o datetime/string)."""
+def _parsear_fecha(valor) -> pd.Timestamp:
+    """Intenta parsear FECHA_HECHO de distintas formas y devuelve Timestamp."""
     if pd.isna(valor):
-        return None
+        return pd.NaT
     if isinstance(valor, (int, float, np.integer, np.floating)):
         try:
-            dt = pd.to_datetime(str(int(valor)), format="%Y%m%d", errors="coerce")
-            return int(dt.year) if not pd.isna(dt) else None
+            return pd.to_datetime(str(int(valor)), format="%Y%m%d", errors="coerce")
         except Exception:
-            return None
+            return pd.NaT
     try:
-        dt = pd.to_datetime(valor, errors="coerce")
-        return int(dt.year) if not pd.isna(dt) else None
+        return pd.to_datetime(valor, errors="coerce")
     except Exception:
-        return None
+        return pd.NaT
 
 
 def _normalizar_columnas(df: pd.DataFrame) -> pd.DataFrame:
@@ -196,10 +194,12 @@ def normalizar_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """
     df = df.copy()
 
-    # AÑO desde FECHA_HECHO
+    # Parseo de FECHA_HECHO
     if "FECHA_HECHO" in df.columns:
-        df["AÑO"] = df["FECHA_HECHO"].apply(_convertir_fecha_a_anio)
+        df["FECHA_HECHO"] = df["FECHA_HECHO"].apply(_parsear_fecha)
+        df["AÑO"] = df["FECHA_HECHO"].dt.year
     else:
+        df["FECHA_HECHO"] = pd.NaT
         df["AÑO"] = np.nan
 
     df["DEPARTAMENTO"] = _limpiar_departamento(df.get("DEPARTAMENTO", pd.Series(dtype=str)))
@@ -270,7 +270,7 @@ def consolidar_delitos() -> pd.DataFrame:
 
     # Columnas finales en orden canónico
     columnas_finales = [
-        "AÑO", "DEPARTAMENTO", "MUNICIPIO", "CODIGO_DANE",
+        "FECHA_HECHO", "AÑO", "DEPARTAMENTO", "MUNICIPIO", "CODIGO_DANE",
         "TIPO_DELITO", "ARMAS_MEDIOS", "GENERO",
         "AGRUPA_EDAD_PERSONA", "CANTIDAD",
     ]
@@ -306,6 +306,18 @@ def cargar_poblacion_dane() -> pd.DataFrame | None:
     df["MUNICIPIO"] = _limpiar_municipio(df["MUNICIPIO"])
     df["AÑO"] = pd.to_numeric(df["AÑO"], errors="coerce").astype(int)
     df["POBLACION"] = pd.to_numeric(df["POBLACION"], errors="coerce")
+
+    # Mapear CODIGO_DANE usando divipola
+    div_df = _get_divipola_df()
+    if not div_df.empty:
+        div_lookup = div_df.reset_index().set_index(["dpto", "nom_mpio"])["cod_mpio"]
+        df["CODIGO_DANE"] = df.apply(
+            lambda r: div_lookup.get((str(r.get("DEPARTAMENTO", "")).upper(), str(r.get("MUNICIPIO", "")).upper()), np.nan),
+            axis=1
+        )
+    else:
+        df["CODIGO_DANE"] = np.nan
+        
     return df
 
 
