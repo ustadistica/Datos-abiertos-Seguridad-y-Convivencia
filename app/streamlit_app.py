@@ -9,12 +9,10 @@ Uso:
 
 from __future__ import annotations
 
-import io
 import sys
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import plotly.express as px
 import streamlit as st
 from streamlit_folium import st_folium
@@ -25,6 +23,7 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from src.visualizacion.mapa_coropletico import (
     cargar_geojson,
+    consultar_kpis_bogota,
     consultar_resumen_nacional,
     consultar_tasas_departamento,
     consultar_tasas_municipio,
@@ -382,6 +381,7 @@ if vista == "Mapa Geográfico":
         df_deptos  = consultar_tasas_departamento(tipo_seleccionado, anio_seleccionado)
         df_munis   = consultar_tasas_municipio(tipo_seleccionado, anio_seleccionado)
         kpis       = consultar_resumen_nacional(tipo_seleccionado, anio_seleccionado)
+        kpis_bog   = consultar_kpis_bogota(tipo_seleccionado, anio_seleccionado)
     
     # ============================================================================
     # KPI CARDS
@@ -401,7 +401,50 @@ if vista == "Mapa Geográfico":
     kpi_card(c2, "🏘️", f"{kpis['municipios']:,}", "Municipios Afectados")
     kpi_card(c3, "📈", f"{kpis['tasa_max']:.1f}", "Tasa Máxima (x 100k)")
     kpi_card(c4, "⚖️", f"{kpis['tasa_promedio']:.2f}", "Tasa Promedio (x 100k)")
-    
+
+    # ── Bogotá D.C. spotlight ─────────────────────────────────────────────────
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-title">🏙️ Bogotá D.C. — Spotlight</div>',
+        unsafe_allow_html=True,
+    )
+
+    bog_tasa   = kpis_bog["tasa_x_100k"]
+    bog_casos  = kpis_bog["total_casos"]
+    bog_rank   = kpis_bog["rank"]
+    bog_total  = kpis_bog["total_deptos"]
+    nac_prom   = kpis["tasa_promedio"]
+
+    if bog_casos > 0:
+        diff_pct   = ((bog_tasa - nac_prom) / nac_prom * 100) if nac_prom > 0 else 0
+        diff_sign  = "+" if diff_pct >= 0 else ""
+        diff_color = "#D7301F" if diff_pct > 0 else "#276749"
+        rank_label = f"{bog_rank}° / {bog_total}" if bog_rank else "N/D"
+        pob_label  = f"{kpis_bog['poblacion']:,}" if kpis_bog.get("poblacion") else "N/D"
+
+        cb1, cb2, cb3, cb4, cb5 = st.columns(5)
+        kpi_card(cb1, "👥", pob_label, "Población DANE")
+        kpi_card(cb2, "🏙️", f"{bog_casos:,}", "Casos en Bogotá")
+        kpi_card(cb3, "📊", f"{bog_tasa:.2f}", "Tasa Bogotá (x 100k)")
+        cb4.markdown(f"""
+        <div class="kpi-card">
+            <span class="kpi-icon">⚖️</span>
+            <div class="kpi-value" style="font-size:1.5rem;">
+                <span style="color:{diff_color};">{diff_sign}{diff_pct:.1f}%</span>
+            </div>
+            <div class="kpi-label">vs. Promedio Nacional</div>
+        </div>
+        """, unsafe_allow_html=True)
+        kpi_card(cb5, "🏆", rank_label, "Ranking Departamental")
+
+        st.caption(
+            "Tasa calculada con proyección oficial DANE · "
+            f"Población de referencia: {pob_label} hab. · "
+            "El resto del mapa usa el denominador original de la Policía Nacional."
+        )
+    else:
+        st.info("Sin datos de Bogotá para los filtros seleccionados.")
+
     st.markdown("<br>", unsafe_allow_html=True)
     
     # ============================================================================
@@ -497,7 +540,8 @@ if vista == "Mapa Geográfico":
         "SANTANDER": (6.6, -73.1), "SUCRE": (9.0, -75.4),
         "TOLIMA": (4.0, -75.3), "VALLE": (3.8, -76.5),
         "VAUPÉS": (0.8, -70.8), "VICHADA": (4.0, -69.8),
-        "BOGOTA D.C.": (4.6, -74.1),
+        "BOGOTA D.C. (DISTRITO CAPITAL)": (4.60, -74.08),
+        "BOGOTA D.C.": (4.60, -74.08),
     }
     
     def _get_coords(depto: str) -> tuple[float, float]:

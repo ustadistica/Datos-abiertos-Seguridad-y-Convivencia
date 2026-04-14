@@ -23,9 +23,10 @@ import requests
 # ---------------------------------------------------------------------------
 # Rutas
 # ---------------------------------------------------------------------------
-REPO_ROOT = Path(__file__).resolve().parents[2]
-DB_PATH   = REPO_ROOT / "datos" / "db"  / "seguridad_convivencia.duckdb"
-GEOJSON_CACHE = REPO_ROOT / "datos" / "interim" / "departamentos_colombia.geojson"
+REPO_ROOT        = Path(__file__).resolve().parents[2]
+DB_PATH          = REPO_ROOT / "datos" / "db" / "seguridad_convivencia.duckdb"
+GEOJSON_CACHE    = REPO_ROOT / "datos" / "interim" / "departamentos_colombia.geojson"
+PARQUET_POBLACION = REPO_ROOT / "datos" / "processed" / "poblacion_dane.parquet"
 
 GEOJSON_DEPTO_URL = (
     "https://gist.githubusercontent.com/john-guerra/"
@@ -42,9 +43,11 @@ CHOROPLETH = ["#FFF7EC", "#FEE8C8", "#FDD49E", "#FDBB84",
               "#FC8D59", "#EF6548", "#D7301F", "#B30000", "#7F0000"]
 
 # Mapeo de nombres de departamento GeoJSON → nombres en la BD
+# NOTA: 'SANTAFE DE BOGOTA D.C' apunta a 'BOGOTA D.C. (DISTRITO CAPITAL)'
+# porque la consulta SQL reclasifica a Bogotá como entidad independiente.
 DEPTO_NAME_MAP: dict[str, str] = {
-    "SANTAFE DE BOGOTA D.C": "BOGOTA, D.C.",
-    "BOGOTA D.C": "BOGOTA, D.C.",
+    "SANTAFE DE BOGOTA D.C": "BOGOTA D.C. (DISTRITO CAPITAL)",
+    "BOGOTA D.C": "BOGOTA D.C. (DISTRITO CAPITAL)",
     "NARINO": "NARIÑO",
     "CORDOBA": "CÓRDOBA",
     "BOYACA": "BOYACÁ",
@@ -67,6 +70,7 @@ DEPTO_NAME_MAP: dict[str, str] = {
     "META": "META",
     "SANTANDER": "SANTANDER",
     "NORTE DE SANTANDER": "NORTE DE SANTANDER",
+    "VALLE DEL CAUCA": "VALLE",
     "VALLE": "VALLE",
     "CAUCA": "CAUCA",
     "ANTIOQUIA": "ANTIOQUIA",
@@ -75,8 +79,39 @@ DEPTO_NAME_MAP: dict[str, str] = {
     "CESAR": "CESAR",
     "CASANARE": "CASANARE",
     "CUNDINAMARCA": "CUNDINAMARCA",
+    "ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA": "ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA",
     "ARCHIPIÉLAGO DE SAN ANDRÉS": "ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA",
 }
+
+
+# ---------------------------------------------------------------------------
+# Población DANE — lookup departamental
+# ---------------------------------------------------------------------------
+
+# Nombres en el parquet que difieren de los nombres en la BD (unidecode, sin tildes)
+_PARQUET_A_DB: dict[str, str] = {
+    "BOGOTA, D.C.": "BOGOTA D.C. (DISTRITO CAPITAL)",
+    "VALLE DEL CAUCA": "VALLE",
+}
+
+
+def _cargar_pob_depto(anio: int) -> dict[str, int]:
+    """
+    Lee poblacion_dane.parquet y devuelve {nombre_db: población} para el año dado.
+
+    Bogotá D.C. se almacena como 'BOGOTA D.C. (DISTRITO CAPITAL)' (igual que en
+    el CASE de las consultas SQL). Si el parquet no existe devuelve dict vacío.
+    """
+    if not PARQUET_POBLACION.exists():
+        return {}
+    df = pd.read_parquet(PARQUET_POBLACION)
+    df = df[df["AÑO"] == anio][["DEPARTAMENTO", "POBLACION"]].copy()
+    result: dict[str, int] = {}
+    for _, row in df.iterrows():
+        nombre = str(row["DEPARTAMENTO"]).upper().strip()
+        db_nombre = _PARQUET_A_DB.get(nombre, nombre)
+        result[db_nombre] = int(row["POBLACION"])
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -128,17 +163,26 @@ def obtener_anios() -> list[int]:
 
 def consultar_tasas_departamento(tipo_delito: str, anio: int) -> pd.DataFrame:
     """
-    Agrega tasa_x_100k a nivel departamental.
+    Agrega casos a nivel departamental y calcula tasa_x_100k usando la
+    proyección DANE oficial como denominador.
 
-    Returns: departamento, total_casos, tasa_promedio
+    Fórmula: tasa = SUM(casos) / población_dane * 100_000
+
+    Bogotá D.C. se separa de Cundinamarca mediante un CASE y usa su propia
+    población (~7.9M), no la de Cundinamarca (~3.4M).
+
+    Returns: departamento, total_casos, tasa_x_100k
     """
     con = duckdb.connect(str(DB_PATH), read_only=True)
     try:
         df = con.execute("""
             SELECT
-                u.departamento,
-                SUM(f.cantidad)  AS total_casos,
-                SUM(f.cantidad) / NULLIF(SUM(f.cantidad / NULLIF(f.tasa_x_100k, 0)), 0) AS tasa_x_100k
+                CASE
+                    WHEN u.departamento = 'CUNDINAMARCA' AND u.municipio = 'BOGOTA D.C.'
+                        THEN 'BOGOTA D.C. (DISTRITO CAPITAL)'
+                    ELSE u.departamento
+                END AS departamento,
+                SUM(f.cantidad) AS total_casos
             FROM fact_delitos f
             JOIN dim_fecha     d   USING (fecha_key)
             JOIN dim_ubicacion u   USING (ubicacion_key)
@@ -146,16 +190,25 @@ def consultar_tasas_departamento(tipo_delito: str, anio: int) -> pd.DataFrame:
             WHERE del.tipo_delito = ?
               AND d.anio          = ?
             GROUP BY 1
-            ORDER BY 3 DESC NULLS LAST
         """, [tipo_delito, anio]).df()
     finally:
         con.close()
+
+    pob = _cargar_pob_depto(anio)
+    df["_pob"] = df["departamento"].map(pob)
+    df["tasa_x_100k"] = (df["total_casos"] / df["_pob"] * 100_000).where(df["_pob"].notna())
+    df = df.drop(columns=["_pob"]).sort_values("tasa_x_100k", ascending=False, na_position="last")
     return df
 
 
 def consultar_tasas_municipio(tipo_delito: str, anio: int) -> pd.DataFrame:
     """
-    Tasa por municipio con lat/lon aproximadas desde el código DANE.
+    Casos y tasa por municipio, usando la población departamental DANE como
+    denominador (mejor aproximación disponible sin datos municipales de DANE).
+
+    Bogotá D.C. usa su propia población de 7.9M (no la de Cundinamarca).
+    Para el resto, la tasa refleja los casos del municipio respecto al total
+    de población del departamento — útil para comparación relativa.
 
     Returns: departamento, municipio, codigo_dane, total_casos, tasa_x_100k
     """
@@ -166,8 +219,7 @@ def consultar_tasas_municipio(tipo_delito: str, anio: int) -> pd.DataFrame:
                 u.departamento,
                 u.municipio,
                 u.codigo_dane,
-                SUM(f.cantidad)  AS total_casos,
-                SUM(f.cantidad) / NULLIF(SUM(f.cantidad / NULLIF(f.tasa_x_100k, 0)), 0) AS tasa_x_100k
+                SUM(f.cantidad) AS total_casos
             FROM fact_delitos f
             JOIN dim_fecha     d   USING (fecha_key)
             JOIN dim_ubicacion u   USING (ubicacion_key)
@@ -176,11 +228,116 @@ def consultar_tasas_municipio(tipo_delito: str, anio: int) -> pd.DataFrame:
               AND d.anio          = ?
               AND u.codigo_dane   IS NOT NULL
             GROUP BY 1, 2, 3
-            ORDER BY 5 DESC NULLS LAST
         """, [tipo_delito, anio]).df()
     finally:
         con.close()
+
+    pob = _cargar_pob_depto(anio)
+
+    def _pob_municipio(row) -> Optional[int]:
+        # Bogotá tiene su propia población como D.C., no usa la de Cundinamarca
+        if row["municipio"] == "BOGOTA D.C." and row["departamento"] == "CUNDINAMARCA":
+            return pob.get("BOGOTA D.C. (DISTRITO CAPITAL)")
+        return pob.get(row["departamento"])
+
+    df["_pob"] = df.apply(_pob_municipio, axis=1)
+    df["tasa_x_100k"] = (df["total_casos"] / df["_pob"] * 100_000).where(df["_pob"].notna())
+    df = df.drop(columns=["_pob"]).sort_values("tasa_x_100k", ascending=False, na_position="last")
     return df
+
+
+# Proyecciones DANE oficiales para Bogotá D.C. (municipio 11001)
+# Fuente: datos/processed/poblacion_dane.parquet
+_POB_DANE_BOGOTA: dict[int, int] = {
+    2018: 7_391_056,
+    2019: 7_533_202,
+    2020: 7_717_564,
+    2021: 7_804_920,
+    2022: 7_849_206,
+    2023: 7_883_928,
+    2024: 7_918_660,
+}
+
+
+def consultar_kpis_bogota(tipo_delito: str, anio: int) -> dict:
+    """
+    KPIs específicos de Bogotá D.C. usando la población real DANE.
+
+    La tasa se calcula como:
+        tasa = SUM(casos) / poblacion_dane * 100_000
+
+    Esto corrige el subregistro en la columna tasa_x_100k del modelo estrella,
+    que usa un denominador ~2.3× menor que la proyección oficial del DANE.
+
+    Returns: total_casos, tasa_x_100k (corregida), rank, total_deptos.
+    """
+    poblacion = _POB_DANE_BOGOTA.get(anio)
+
+    con = duckdb.connect(str(DB_PATH), read_only=True)
+    try:
+        # Casos totales de Bogotá para el año/delito seleccionado
+        row = con.execute("""
+            SELECT SUM(f.cantidad) AS total_casos
+            FROM fact_delitos f
+            JOIN dim_fecha     d   USING (fecha_key)
+            JOIN dim_ubicacion u   USING (ubicacion_key)
+            JOIN dim_delito    del USING (delito_key)
+            WHERE del.tipo_delito = ?
+              AND d.anio          = ?
+              AND u.municipio     = 'BOGOTA D.C.'
+              AND u.departamento  = 'CUNDINAMARCA'
+        """, [tipo_delito, anio]).fetchone()
+
+        total_casos = int(row[0] or 0) if row else 0
+
+        # Tasa corregida con población DANE
+        if poblacion and total_casos > 0:
+            tasa_corregida = total_casos / poblacion * 100_000
+        else:
+            tasa_corregida = 0.0
+
+        # Ranking de Bogotá entre todos los departamentos
+        # (se usa la tasa corregida de Bogotá vs. las tasas almacenadas del resto)
+        rank_row = con.execute("""
+            WITH deptos AS (
+                SELECT
+                    CASE
+                        WHEN u.departamento = 'CUNDINAMARCA' AND u.municipio = 'BOGOTA D.C.'
+                            THEN 'BOGOTA D.C. (DISTRITO CAPITAL)'
+                        ELSE u.departamento
+                    END AS departamento,
+                    SUM(f.cantidad) / NULLIF(SUM(f.cantidad / NULLIF(f.tasa_x_100k, 0)), 0) AS tasa_x_100k
+                FROM fact_delitos f
+                JOIN dim_fecha     d   USING (fecha_key)
+                JOIN dim_ubicacion u   USING (ubicacion_key)
+                JOIN dim_delito    del USING (delito_key)
+                WHERE del.tipo_delito = ?
+                  AND d.anio          = ?
+                GROUP BY 1
+            )
+            SELECT COUNT(*) AS total_deptos,
+                   SUM(CASE WHEN tasa_x_100k > ? THEN 1 ELSE 0 END) AS deptos_por_encima
+            FROM deptos
+            WHERE tasa_x_100k IS NOT NULL
+              AND departamento != 'BOGOTA D.C. (DISTRITO CAPITAL)'
+        """, [tipo_delito, anio, tasa_corregida]).fetchone()
+    finally:
+        con.close()
+
+    if rank_row and rank_row[0]:
+        total_deptos = int(rank_row[0]) + 1   # +1 incluye Bogotá
+        rank = int(rank_row[1]) + 1            # posición = deptos con tasa > Bogotá + 1
+    else:
+        total_deptos = None
+        rank = None
+
+    return {
+        "total_casos":  total_casos,
+        "tasa_x_100k":  tasa_corregida,
+        "poblacion":    poblacion,
+        "rank":         rank,
+        "total_deptos": total_deptos,
+    }
 
 
 def consultar_resumen_nacional(tipo_delito: str, anio: int) -> dict:

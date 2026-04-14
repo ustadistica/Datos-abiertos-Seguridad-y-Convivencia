@@ -70,8 +70,7 @@ def consultar_datos_series_tiempo(
             SELECT
                 d.anio AS "Año",
                 del.tipo_delito AS "Delito",
-                SUM(f.cantidad) AS "Casos",
-                SUM(f.cantidad) / NULLIF(SUM(f.cantidad / NULLIF(f.tasa_x_100k, 0)), 0) AS "Tasa"
+                SUM(f.cantidad) AS "Casos"
             FROM fact_delitos f
             JOIN dim_fecha d     USING (fecha_key)
             JOIN dim_ubicacion u USING (ubicacion_key)
@@ -83,6 +82,30 @@ def consultar_datos_series_tiempo(
         df = con.execute(query, params).df()
     finally:
         con.close()
+
+    # Calcular Tasa con población DANE real: casos / población * 100_000
+    from src.visualizacion.mapa_coropletico import _cargar_pob_depto, _POB_DANE_BOGOTA
+
+    def _tasa_fila(row):
+        anio = int(row["Año"])
+        if departamento == "TODOS (NACIONAL)":
+            # Suma de todas las poblaciones departamentales
+            pob_total = sum(_cargar_pob_depto(anio).values()) or None
+        elif departamento == "CUNDINAMARCA":
+            pob_total = _cargar_pob_depto(anio).get("CUNDINAMARCA")
+        else:
+            # Buscar si es Bogotá (puede venir como 'BOGOTA D.C.' en el selector)
+            if "BOGOTA" in departamento.upper():
+                pob_total = _POB_DANE_BOGOTA.get(anio)
+            else:
+                pob_total = _cargar_pob_depto(anio).get(departamento)
+        return row["Casos"] / pob_total * 100_000 if pob_total else None
+
+    if not df.empty:
+        df["Tasa"] = df.apply(_tasa_fila, axis=1)
+    else:
+        df["Tasa"] = pd.Series(dtype=float)
+
     return df
 
 def renderizar_series_tiempo():
