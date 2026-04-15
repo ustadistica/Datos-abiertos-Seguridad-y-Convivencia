@@ -1,3 +1,11 @@
+# ======================================
+# DIRECTORIOS DE DATOS (nunca versionar)
+# ======================================
+datos/raw/
+datos/processed/
+datos/db/
+datos/interim/
+
 # Ignorar archivo Excel grande
 Datos/PPED-AreaSexoEdadMun-2018-2042_VP.xlsx
 
@@ -31,6 +39,7 @@ __pycache__/
 # Mantener solo si realmente quieres versionar un archivo de ejemplo
 !ejemplo_*.csv
 !ejemplo_*.xlsx
+!artifacts/calidad_catalogo_*.csv
 
 # ======================================
 # ARCHIVOS DE R
