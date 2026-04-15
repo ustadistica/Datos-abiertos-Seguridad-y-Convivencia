@@ -3,8 +3,8 @@
   "extraPaths": ["."],
   "pythonVersion": "3.10",
   "pythonPlatform": "All",
-  "venvPath": ".",
-  "venv": ".venv",
+  "venvPath": "C:/Users/moran/AppData/Local/pypoetry/Cache/virtualenvs",
+  "venv": "seguridad-convivencia-j3gV_wQp-py3.10",
   "typeCheckingMode": "basic",
   "reportMissingImports": false,
   "reportMissingModuleSource": false

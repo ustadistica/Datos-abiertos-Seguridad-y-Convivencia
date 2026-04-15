@@ -4371,24 +4371,6 @@ sql = ["SQLAlchemy (>=2.0.0)"]
 starlette = ["anyio (>=4.0.0)", "itsdangerous (>=2.1.2)", "python-multipart (>=0.0.10)", "starlette (>=0.40.0)", "uvicorn (>=0.30.0)", "websockets (>=12.0.0)"]
 
 [[package]]
-name = "streamlit-folium"
-version = "0.26.2"
-description = "Render Folium objects in Streamlit"
-optional = false
-python-versions = ">=3.10"
-groups = ["main"]
-files = [
-    {file = "streamlit_folium-0.26.2-py3-none-any.whl", hash = "sha256:6374a932e7d94806af122b89982c805ab0641a17a350d160cf74a96d5b8300c1"},
-    {file = "streamlit_folium-0.26.2.tar.gz", hash = "sha256:721e712d6edddd0a87e65d7378ba38e467014f3f042b16ca170302c07169c351"},
-]
-
-[package.dependencies]
-branca = "*"
-folium = ">=0.13,<0.15.0 || >0.15.0"
-jinja2 = "*"
-streamlit = ">=1.13.0"
-
-[[package]]
 name = "tenacity"
 version = "9.1.4"
 description = "Retry code until it succeeds"
@@ -4945,4 +4927,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.14"
-content-hash = "a9f1fd5b6798905b5cbad253cc69296a070259807697d28e345d07904c401458"
+content-hash = "23cc70cc3c5eecab37c4c36212f7c0019ac12c87bebfe3eb29731ffb46f75ded"
