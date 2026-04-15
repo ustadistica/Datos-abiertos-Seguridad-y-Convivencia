@@ -129,6 +129,20 @@ Dashboard Streamlit de producción implementado:
 - Navegación optimizada (teclado + segmented controls).
 - Cálculo dinámico de métricas rigurosas (tasas ponderadas).
 
+#### 🛠️ Stack Tecnológico
+- **Motor de Datos:** DuckDB (OLAP de alto rendimiento).
+- **Backend:** Python con Poetry para gestión de dependencias.
+- **Frontend:** Streamlit con CSS inyectado para UX personalizada.
+- **Geospatial:** Folium & GeoJSON para mapas coropléticos.
+
+#### 🚀 Despliegue
+El proyecto está optimizado para **Streamlit Cloud**. 
+Para ejecutar localmente:
+1. `pip install poetry`
+2. `poetry install`
+3. `poetry run streamlit run app/streamlit_app.py`
+
+
 ### Sprint 4 (Sem 8)
 
 Modelado predictivo: series de tiempo (Prophet/ARIMA), clustering de municipios por perfil delictivo (K-means/HDBSCAN).
