@@ -6,9 +6,53 @@ Observatorio de datos abiertos de seguridad y convivencia ciudadana en Colombia.
 
 ## Fuentes de Datos
 
-Policía Nacional / datos.gov.co — delitos 2018-2024 (homicidio, lesiones, hurto, etc.)
+Los datos utilizados en este proyecto provienen de **dos fuentes oficiales colombianas**:
 
-Consultar [`datos/catalogo.yaml`](datos/catalogo.yaml) para los identificadores Socrata y metadatos de cada dataset.
+### 1. Policía Nacional de Colombia — Estadísticas de Delitos de Impacto
+
+Los archivos de delitos se descargan directamente del portal web de la Policía Nacional de Colombia:
+
+🔗 **Portal:** [https://www.policia.gov.co](https://www.policia.gov.co) → sección *Estadísticas de criminalidad* → *Delitos de impacto*
+
+Cada dataset se publica como archivos Excel (`.xlsx` / `.xls`) con periodicidad anual. La URL de descarga directa de cada archivo por año está documentada en [`datos/catalogo.yaml`](datos/catalogo.yaml).
+
+| Dataset | Descripción | Formato | Cobertura |
+|---------|-------------|---------|-----------|
+| Abigeato | Hurto a cabezas de ganado | xlsx/xls | 2018–2024 |
+| Amenazas | Amenazas por diversos motivos | xlsx/xls | 2018–2024 |
+| Delitos sexuales | Delitos de naturaleza sexual | xlsx/xls | 2018–2024 |
+| Extorsión | Extorsión | xlsx/xls | 2018–2024 |
+| Homicidios | Homicidios intencionales | xlsx/xls | 2018–2024 |
+| Homicidios en accidentes de tránsito | Homicidios ocurridos en accidentes de tránsito | xlsx/xls | 2018–2024 |
+| Hurto a personas | Hurtos cometidos contra personas | xlsx/xls | 2018–2024 |
+| Hurto a residencias | Hurtos en residencias | xlsx/xls | 2018–2024 |
+| Hurto de automotores | Hurtos de vehículos automotores | xlsx/xls | 2018–2024 |
+| Hurto de motocicletas | Hurtos de motocicletas | xlsx/xls | 2018–2024 |
+| Hurto a comercio | Hurtos a entidades comerciales | xlsx/xls | 2018–2024 |
+| Hurto a entidades financieras | Hurtos a entidades financieras | xlsx/xls | 2018–2024 |
+| Lesiones en accidentes de tránsito | Lesiones ocurridas en accidentes de tránsito | xlsx/xls | 2018–2024 |
+| Lesiones personales | Lesiones personales | xlsx/xls | 2018–2024 |
+| Piratería terrestre | Piratería terrestre | xlsx/xls | 2018–2024 |
+| Secuestro | Secuestro | xlsx/xls | 2018–2024 |
+| Terrorismo | Terrorismo | xlsx/xls | 2018–2024 |
+| Violencia intrafamiliar | Casos de violencia intrafamiliar | xlsx/xls | 2018–2024 |
+
+> **Nota:** Algunos archivos de años 2020–2022 están en formato `.xls` antiguo y requieren la dependencia `xlrd >= 2.0.1` para su lectura. El script de ingesta maneja estos casos automáticamente.
+
+### 2. DANE — Proyecciones de Población Municipal
+
+Para calcular tasas de delitos por 100.000 habitantes se utilizan las proyecciones de población del **DANE** (Departamento Administrativo Nacional de Estadística):
+
+🔗 **Portal:** [Proyecciones de población DANE](https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion)
+
+- **Formato:** csv
+- **Cobertura:** 2018–2024
+- **Descarga:** Manual (no automatizable). Visitar el portal y buscar *"Proyecciones de población municipales y departamentales 2018-2035"*.
+- **Archivo esperado:** `datos/raw/poblacion/dane_poblacion_municipios_2018_2024.csv`
+
+### Catálogo de datos
+
+Toda la metadata de las fuentes (URLs de descarga, formatos, cobertura temporal) está centralizada en [`datos/catalogo.yaml`](datos/catalogo.yaml). El pipeline de ingesta (`src/ingesta/`) lee este archivo para descargar y validar los datos automáticamente.
 
 ## Preguntas de Investigacion
 
@@ -58,12 +102,12 @@ Datos-abiertos-Seguridad-y-Convivencia/
 git clone https://github.com/ustadistica/Datos-abiertos-Seguridad-y-Convivencia.git
 cd Datos-abiertos-Seguridad-y-Convivencia
 
-# Instalar dependencias con Poetry (usa Python 3.12)
-py -3.12 -m pip install poetry
-py -3.12 -m poetry install
+# Instalar dependencias con Poetry
+python -m pip install poetry
+poetry install
 
 # Registrar el kernel de Jupyter (importante para notebooks)
-py -3.12 -m poetry run python -m ipykernel install --user \
+poetry run python -m ipykernel install --user \
     --name=seguridad-convivencia \
     --display-name "Python (seguridad-convivencia)"
 ```
@@ -74,17 +118,17 @@ Antes de ejecutar los notebooks o el dashboard, debes generar los datos:
 
 ```bash
 # 1. Ingesta de datos desde Policía Nacional
-py -3.12 -m poetry run python -m src.ingesta.main
+poetry run python -m src.ingesta.main
 
 # 2. Transformación y creación del modelo estrella
-py -3.12 -m poetry run python -m src.transformacion.main
+poetry run python -m src.transformacion.main
 ```
 
 ## Ejecutar Notebooks
 
 ```bash
 # Abrir Jupyter con el kernel del proyecto
-py -3.12 -m poetry run jupyter notebook
+poetry run jupyter notebook
 
 # Luego selecciona el kernel "Python (seguridad-convivencia)"
 ```
@@ -102,7 +146,7 @@ El dashboard interactivo principal (Sprint 3) es una aplicación avanzada que in
 - **🎨 Interfaz Premium**: Tema institucional Ustadistica (Light Mode) con visualizaciones dinámicas integradas con DuckDB.
 
 ```bash
-py -3.12 -m poetry run streamlit run app/streamlit_app.py
+poetry run streamlit run app/streamlit_app.py
 ```
 
 ## Troubleshooting

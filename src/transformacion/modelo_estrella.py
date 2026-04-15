@@ -186,7 +186,29 @@ def _enriquecer_con_poblacion(
     Requiere que dim_ubicacion y fact_delitos ya estén en la BD.
     """
     con.register("poblacion_dane", poblacion)
-    con.execute("""
+
+    # Detectar si los datos son a nivel departamental o municipal
+    has_municipio = con.execute(
+        "SELECT COUNT(*) FROM poblacion_dane WHERE MUNICIPIO != 'TOTAL DEPARTAMENTO'"
+    ).fetchone()[0] > 0
+
+    if has_municipio:
+        # JOIN a nivel municipal
+        join_sql = """
+            LEFT JOIN poblacion_dane p
+                ON upper(p.DEPARTAMENTO) = upper(u.departamento)
+                AND upper(p.MUNICIPIO)   = upper(u.municipio)
+                AND p."AÑO"             = d.anio
+        """
+    else:
+        # JOIN a nivel departamental (población del depto completo)
+        join_sql = """
+            LEFT JOIN poblacion_dane p
+                ON upper(p.DEPARTAMENTO) = upper(u.departamento)
+                AND p."AÑO"             = d.anio
+        """
+
+    con.execute(f"""
         CREATE OR REPLACE TABLE fact_delitos AS
         SELECT
             f.fecha_key,
