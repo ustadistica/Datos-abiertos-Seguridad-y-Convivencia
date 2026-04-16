@@ -431,6 +431,8 @@ def cargar_poblacion_dane() -> pd.DataFrame | None:
         df["MUNICIPIO"] = "TOTAL DEPARTAMENTO"
 
     df["MUNICIPIO"] = _limpiar_municipio(df["MUNICIPIO"])
+    df["AÑO"] = pd.to_numeric(df["AÑO"], errors="coerce").astype(int)
+    df["POBLACION"] = pd.to_numeric(df["POBLACION"], errors="coerce")
 
     # ── Bogotá D.C. es un distrito capital, NO parte de Cundinamarca ──
     mask_bogota = df["DEPARTAMENTO"].str.contains("BOGOTA", case=False, na=False)
