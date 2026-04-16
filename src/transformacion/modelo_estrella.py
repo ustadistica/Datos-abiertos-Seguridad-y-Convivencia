@@ -36,7 +36,7 @@ DB_PATH = DB_DIR / "seguridad_convivencia.duckdb"
 def _build_dim_fecha(df: pd.DataFrame) -> pd.DataFrame:
     """dim_fecha: surrogate key sobre FECHA_HECHO."""
     dim = (
-        df[["FECHA_HECHO", "AÑO"]]
+        df[["FECHA_HECHO", "ANIO"]]
         .drop_duplicates()
         .sort_values("FECHA_HECHO")
         .reset_index(drop=True)
@@ -48,7 +48,7 @@ def _build_dim_fecha(df: pd.DataFrame) -> pd.DataFrame:
     dim["dia_semana"] = dim["FECHA_HECHO"].dt.dayofweek
     dim["fecha"] = dim["FECHA_HECHO"]
     
-    dim = dim.rename(columns={"AÑO": "anio"})
+    dim = dim.rename(columns={"ANIO": "anio"})
     dim = dim.drop(columns=["FECHA_HECHO"])
     return dim
 
@@ -125,8 +125,8 @@ def _build_fact_delitos(
 
     # Join fecha
     fact = fact.merge(
-        dim_fecha.rename(columns={"anio": "AÑO", "fecha": "FECHA_HECHO"}),
-        on=["FECHA_HECHO", "AÑO"],
+        dim_fecha.rename(columns={"anio": "ANIO", "fecha": "FECHA_HECHO"}),
+        on=["FECHA_HECHO", "ANIO"],
         how="left",
     )
 
@@ -186,6 +186,7 @@ def _enriquecer_con_poblacion(
     Requiere que dim_ubicacion y fact_delitos ya estén en la BD.
     """
     con.register("poblacion_dane", poblacion)
+    print(f"  Columnas DANE registradas: {poblacion.columns.tolist()}")
 
     # Detectar si los datos son a nivel departamental o municipal
     has_municipio = con.execute(
@@ -193,18 +194,26 @@ def _enriquecer_con_poblacion(
     ).fetchone()[0] > 0
 
     if has_municipio:
-        # JOIN a nivel municipal — usar CODIGO_DANE si existe, fallback nombre
-        join_sql = """
-            LEFT JOIN poblacion_dane p
-                ON (p.CODIGO_DANE IS NOT NULL AND p.CODIGO_DANE = u.codigo_dane AND p."AÑO" = d.anio)
-                OR (p.CODIGO_DANE IS NULL AND upper(p.DEPARTAMENTO) = upper(u.departamento) AND upper(p.MUNICIPIO) = upper(u.municipio) AND p."AÑO" = d.anio)
-        """
+        # Usar CODIGO_DANE si existe en 'p', sino solo nombres
+        if 'CODIGO_DANE' in poblacion.columns:
+            join_sql = """
+                LEFT JOIN poblacion_dane p
+                    ON (p.CODIGO_DANE IS NOT NULL AND p.CODIGO_DANE = u.codigo_dane AND p."ANIO" = d.anio)
+                    OR (p.CODIGO_DANE IS NULL AND upper(p.DEPARTAMENTO) = upper(u.departamento) AND upper(p.MUNICIPIO) = upper(u.municipio) AND p."ANIO" = d.anio)
+            """
+        else:
+            join_sql = """
+                LEFT JOIN poblacion_dane p
+                    ON upper(p.DEPARTAMENTO) = upper(u.departamento)
+                    AND upper(p.MUNICIPIO) = upper(u.municipio)
+                    AND p."ANIO" = d.anio
+            """
     else:
         # JOIN a nivel departamental (población del depto completo)
         join_sql = """
             LEFT JOIN poblacion_dane p
                 ON upper(p.DEPARTAMENTO) = upper(u.departamento)
-                AND p."AÑO"             = d.anio
+                AND p."ANIO"             = d.anio
         """
 
     con.execute(f"""
