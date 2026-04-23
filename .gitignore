@@ -9,21 +9,6 @@ datos/interim/
 # Ignorar archivo Excel grande
 Datos/PPED-AreaSexoEdadMun-2018-2042_VP.xlsx
 
-# Ignorar todos los archivos temporales de Excel
-*.tmp
-~$*.xlsx
-
-# Ignorar archivos de sistema de Windows
-Thumbs.db
-Desktop.ini
-
-# Ignorar cachés de R y Python (si los usas)
-.Rhistory
-.RData
-.Rproj.user/
-__pycache__/
-*.pyc
-
 # ======================================
 # ARCHIVOS DE DATOS GRANDES
 # ======================================
@@ -42,16 +27,7 @@ __pycache__/
 !artifacts/calidad_catalogo_*.csv
 
 # ======================================
-# ARCHIVOS DE R
-# ======================================
-.Rhistory
-.RData
-.Rproj.user/
-.Ruserdata
-*.Rproj
-
-# ======================================
-# ARCHIVOS DE PYTHON
+# PYTHON
 # ======================================
 __pycache__/
 *.pyc
@@ -60,29 +36,8 @@ __pycache__/
 *.egg-info/
 .env
 .venv
-*.ipynb_checkpoints
-
-# ======================================
-# OFFICE (Word, Excel, PowerPoint temporales)
-# ======================================
-~$*.docx
-~$*.xlsx
-~$*.pptx
-
-# ======================================
-# SISTEMA / TEMPORALES
-# ======================================
-.DS_Store
-Thumbs.db
-desktop.ini
-*.tmp
-*.log
-
-# ======================================
-# PROYECTOS DE VISUAL STUDIO CODE
-# ======================================
-.vscode/
-.history/
+env/
+venv/
 
 # ======================================
 # JUPYTER NOTEBOOKS
@@ -91,67 +46,54 @@ desktop.ini
 *.ipynb_checkpoints
 
 # ======================================
-# ONEDRIVE (a veces genera conflictos)
+# HERRAMIENTAS DE IA Y EDITORES
 # ======================================
-*.lnk
-~$*
-# Archivos de entorno y dependencias de Python
-# ----------------------------------------------------------------
-.env
-.venv
-env/
-venv/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Archivos de Jupyter Notebook
-# ----------------------------------------------------------------
-.ipynb_checkpoints
-
-# Archivos de configuración de IDEs y editores
-# ----------------------------------------------------------------
+.claude/
+.qwen/
+.streamlit/
 .vscode/
 .idea/
 *.sublime-project
 *.sublime-workspace
+.history/
 
-# Archivos generados por el sistema operativo
-# ----------------------------------------------------------------
+# ======================================
+# SISTEMA OPERATIVO
+# ======================================
 .DS_Store
 Thumbs.db
-
-# Archivos de datos
-# ----------------------------------------------------------------
-# IMPORTANTE: Descomenta y añade aquí los archivos de datos que sean
-# muy grandes o contengan información sensible para que no se suban
-# al repositorio de Git.
-#
-# Ejemplo:
-# Datos y conexiones/0_raw/dataset_muy_grande.csv
-# Datos y conexiones/0_raw/datos_privados.xlsx
-
-# Modelos entrenados
-# ----------------------------------------------------------------
-# Los modelos pueden ser muy pesados. Descomenta las siguientes líneas
-# si no quieres versionar los archivos de los modelos.
-#
-# Datos y conexiones/2_models/*.pkl
-# Datos y conexiones/2_models/*.joblib
-# Datos y conexiones/2_models/*.h5
-
-# Reportes y logs
-# ----------------------------------------------------------------
-# Descomenta si no quieres versionar los reportes generados.
-#
-# Doc/reports/*.pdf
-# Doc/reports/*.html
+desktop.ini
+*.tmp
 *.log
+~$*.docx
+~$*.xlsx
+~$*.pptx
 
-# Credenciales y secretos
-# ----------------------------------------------------------------
-# NUNCA subas credenciales o secretos a Git.
+# ======================================
+# OFFICE TEMPORALES
+# ======================================
+~$*.xlsx
+*.tmp
+
+# ======================================
+# MODELOS ENTRENADOS
+# ======================================
+# Descomenta si no quieres versionar modelos pesados
+# models/*.pkl
+# models/*.joblib
+# models/*.h5
+
+# ======================================
+# REPORTES Y LOGS
+# ======================================
+# Descomenta si no quieres versionar reportes
+# *.log
+# docs/*.pdf
+# docs/*.html
+
+# ======================================
+# CREDENCIALES Y SECRETOS
+# ======================================
 *credentials*
 *.key
 *.secret
