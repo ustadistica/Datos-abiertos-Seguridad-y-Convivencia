@@ -101,7 +101,8 @@ def _cargar_pob_depto(anio: int) -> dict[str, int]:
     if not PARQUET_POBLACION.exists():
         return {}
     df = pd.read_parquet(PARQUET_POBLACION)
-    df = df[df["AÑO"] == anio][["DEPARTAMENTO", "POBLACION"]].copy()
+    anio_col = "ANIO" if "ANIO" in df.columns else "AÑO"
+    df = df[df[anio_col] == anio][["DEPARTAMENTO", "POBLACION"]].copy()
     result: dict[str, int] = {}
     for _, row in df.iterrows():
         nombre = str(row["DEPARTAMENTO"]).upper().strip()
