@@ -51,6 +51,7 @@ venv/
 .claude/
 .qwen/
 .streamlit/
+ !.streamlit/config.toml 
 .vscode/
 .idea/
 *.sublime-project

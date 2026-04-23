@@ -368,4 +368,4 @@ fuentes_poblacion:
       - MUNICIPIO
       - AÑO
       - POBLACION
-    archivo_esperado: "datos/raw/poblacion/dane_poblacion_municipios_2018_2024.csv"
+    archivo_esperado: "datos/raw/poblacion/dane_poblacion_departamentos_2018_2024.csv"
