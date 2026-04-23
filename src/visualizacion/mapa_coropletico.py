@@ -55,6 +55,30 @@ DEPTO_NAME_MAP: dict[str, str] = {
     "VALLE DEL CAUCA": "VALLE",
 }
 
+# Nombre oficial para mostrar en UI: BD (mayúsculas) → nombre con tildes y formato correcto.
+# Solo se listan los departamentos cuyo nombre en BD difiere del nombre oficial colombiano.
+DEPTO_DISPLAY_NAME: dict[str, str] = {
+    "BOGOTA D.C. (DISTRITO CAPITAL)": "Bogotá D.C.",
+    "NARINO":     "Nariño",
+    "GUAJIRA":    "La Guajira",
+    "SAN ANDRES": "San Andrés",
+    "VALLE":      "Valle del Cauca",
+    "ATLANTICO":  "Atlántico",
+    "BOLIVAR":    "Bolívar",
+    "BOYACA":     "Boyacá",
+    "CAQUETA":    "Caquetá",
+    "VAUPES":     "Vaupés",
+    "CHOCO":      "Chocó",
+    "CORDOBA":    "Córdoba",
+    "GUAINIA":    "Guainía",
+    "QUINDIO":    "Quindío",
+}
+
+
+def format_depto(nombre_db: str) -> str:
+    """Convierte el nombre de departamento de la BD al nombre oficial con tildes."""
+    return DEPTO_DISPLAY_NAME.get(nombre_db.upper().strip(), nombre_db.title())
+
 
 # ---------------------------------------------------------------------------
 # Población DANE — lookup departamental
@@ -425,7 +449,7 @@ def construir_mapa_departamental(
             casos_int = int(row.get("total_casos", 0))
             casos_str = f"{casos_int:,}"
             tasa_str  = f"{tasa_val:.2f}" if (tasa_val is not None and not np.isnan(tasa_val)) else "Sin tasa"
-            depto_str = row["departamento"].title()
+            depto_str = format_depto(row["departamento"])
         else:
             tasa_str  = "Sin dato"
             casos_str = "–"

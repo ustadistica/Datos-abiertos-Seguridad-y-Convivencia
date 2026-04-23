@@ -28,6 +28,7 @@ from src.visualizacion.mapa_coropletico import (
     consultar_tasas_departamento,
     consultar_tasas_municipio,
     construir_mapa_departamental,
+    format_depto,
     obtener_anios,
     obtener_tipos_delito,
 )
@@ -490,7 +491,7 @@ if vista == "Mapa Geográfico":
         )
     
         df_rank = df_deptos.dropna(subset=[metrica_col]).nlargest(10, metrica_col).copy()
-        df_rank["Departamento"] = df_rank["departamento"].str.title()
+        df_rank["Departamento"] = df_rank["departamento"].apply(format_depto)
         df_rank["Casos"] = df_rank["total_casos"].apply(lambda x: f"{int(x):,}")
         df_rank["#"] = range(1, len(df_rank) + 1)
         cols_to_show = ["#", "Departamento", "Casos"]
@@ -565,7 +566,7 @@ if vista == "Mapa Geográfico":
     
         df_viz["Tasa (100k)"]   = df_viz["tasa_x_100k"].round(2)
         df_viz["Municipio"]     = df_viz["municipio"].str.title()
-        df_viz["Departamento"]  = df_viz["departamento"].str.title()
+        df_viz["Departamento"]  = df_viz["departamento"].apply(format_depto)
         df_viz["Casos"]         = df_viz["total_casos"].astype(int)
     
         # Filter out nulls for coloring
@@ -686,7 +687,7 @@ if vista == "Mapa Geográfico":
     )
     
     df_bar = df_deptos.dropna(subset=[metrica_col]).sort_values(metrica_col, ascending=True)
-    df_bar["Departamento"] = df_bar["departamento"].str.title()
+    df_bar["Departamento"] = df_bar["departamento"].apply(format_depto)
     label_y = "Tasa por 100.000 hab." if metrica_col == "tasa_x_100k" else "Casos totales"
     
     fig_bar = px.bar(
