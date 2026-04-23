@@ -86,8 +86,11 @@ def format_depto(nombre_db: str) -> str:
 
 # Nombres en el parquet que difieren de los nombres en la BD (unidecode, sin tildes)
 _PARQUET_A_DB: dict[str, str] = {
-    "BOGOTA, D.C.": "BOGOTA D.C. (DISTRITO CAPITAL)",
+    "BOGOTA, D.C.":   "BOGOTA D.C. (DISTRITO CAPITAL)",
+    "BOGOTA D.C.":    "BOGOTA D.C. (DISTRITO CAPITAL)",
     "VALLE DEL CAUCA": "VALLE",
+    "LA GUAJIRA":     "GUAJIRA",
+    "ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA": "SAN ANDRES",
 }
 
 
