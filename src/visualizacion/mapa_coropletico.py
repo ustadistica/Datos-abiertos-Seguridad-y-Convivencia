@@ -42,45 +42,17 @@ USTA_GOLD  = "#FDB813"
 CHOROPLETH = ["#FFF7EC", "#FEE8C8", "#FDD49E", "#FDBB84",
               "#FC8D59", "#EF6548", "#D7301F", "#B30000", "#7F0000"]
 
-# Mapeo de nombres de departamento GeoJSON → nombres en la BD
-# NOTA: 'SANTAFE DE BOGOTA D.C' apunta a 'BOGOTA D.C. (DISTRITO CAPITAL)'
-# porque la consulta SQL reclasifica a Bogotá como entidad independiente.
+# Mapeo de nombres de departamento GeoJSON → nombres en la BD.
+# Solo se incluyen entradas donde el nombre del GeoJSON difiere del nombre en la BD.
+# La BD almacena nombres sin tildes (NARINO, GUAJIRA, SAN ANDRES, VALLE).
+# Bogotá está en la BD como CUNDINAMARCA/BOGOTA D.C. y se reclasifica vía CASE en SQL.
 DEPTO_NAME_MAP: dict[str, str] = {
     "SANTAFE DE BOGOTA D.C": "BOGOTA D.C. (DISTRITO CAPITAL)",
     "BOGOTA D.C": "BOGOTA D.C. (DISTRITO CAPITAL)",
-    "NARINO": "NARIÑO",
-    "CORDOBA": "CÓRDOBA",
-    "BOYACA": "BOYACÁ",
-    "CAQUETA": "CAQUETÁ",
-    "VAUPES": "VAUPÉS",
-    "GUAJIRA": "LA GUAJIRA",
-    "ATLANTICO": "ATLÁNTICO",
-    "CHOCO": "CHOCÓ",
-    "ARAUCA": "ARAUCA",
-    "VICHADA": "VICHADA",
-    "PUTUMAYO": "PUTUMAYO",
-    "GUAINIA": "GUAINÍA",
-    "AMAZONAS": "AMAZONAS",
-    "RISARALDA": "RISARALDA",
-    "CALDAS": "CALDAS",
-    "QUINDIO": "QUINDÍO",
-    "SUCRE": "SUCRE",
-    "HUILA": "HUILA",
-    "TOLIMA": "TOLIMA",
-    "META": "META",
-    "SANTANDER": "SANTANDER",
-    "NORTE DE SANTANDER": "NORTE DE SANTANDER",
+    "NARIÑO": "NARINO",
+    "LA GUAJIRA": "GUAJIRA",
+    "ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA": "SAN ANDRES",
     "VALLE DEL CAUCA": "VALLE",
-    "VALLE": "VALLE",
-    "CAUCA": "CAUCA",
-    "ANTIOQUIA": "ANTIOQUIA",
-    "BOLIVAR": "BOLÍVAR",
-    "MAGDALENA": "MAGDALENA",
-    "CESAR": "CESAR",
-    "CASANARE": "CASANARE",
-    "CUNDINAMARCA": "CUNDINAMARCA",
-    "ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA": "ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA",
-    "ARCHIPIÉLAGO DE SAN ANDRÉS": "ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA",
 }
 
 
