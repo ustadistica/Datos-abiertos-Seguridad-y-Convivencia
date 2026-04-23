@@ -14,7 +14,7 @@ from pandera import Column, DataFrameSchema, Check
 # ---------------------------------------------------------------------------
 schema_delito_consolidado = DataFrameSchema(
     {
-        "AÑO": Column(
+        "ANIO": Column(
             int,
             Check.isin(list(range(2018, 2026))),
             nullable=False,

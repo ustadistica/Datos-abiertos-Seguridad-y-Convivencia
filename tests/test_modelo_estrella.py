@@ -17,6 +17,7 @@ from src.transformacion.modelo_estrella import (
 def df_sample():
     return pd.DataFrame({
         "AÑO": [2020, 2020, 2021, 2021],
+        "FECHA_HECHO": pd.to_datetime(["2020-03-15", "2020-07-01", "2021-01-10", "2021-12-31"]),
         "DEPARTAMENTO": ["ANTIOQUIA", "ANTIOQUIA", "CUNDINAMARCA", "CUNDINAMARCA"],
         "MUNICIPIO": ["MEDELLIN", "BELLO", "BOGOTA", "SOACHA"],
         "CODIGO_DANE": [5001.0, 5088.0, 11001.0, 25754.0],
@@ -33,16 +34,16 @@ class TestDimFecha:
         dim = _build_dim_fecha(df_sample)
         assert "fecha_key" in dim.columns
         assert "anio" in dim.columns
+        assert "mes" in dim.columns
+        assert "dia" in dim.columns
+        assert "dia_semana" in dim.columns
+        assert "fecha" in dim.columns
 
-    def test_unicidad(self, df_sample):
-        dim = _build_dim_fecha(df_sample)
-        assert dim["anio"].is_unique
-
-    def test_keys_consecutivos(self, df_sample):
+    def test_fecha_key_consecutivos(self, df_sample):
         dim = _build_dim_fecha(df_sample)
         assert list(dim["fecha_key"]) == list(range(1, len(dim) + 1))
 
-    def test_anos_correctos(self, df_sample):
+    def test_fechas_correctas(self, df_sample):
         dim = _build_dim_fecha(df_sample)
         assert set(dim["anio"]) == {2020, 2021}
 

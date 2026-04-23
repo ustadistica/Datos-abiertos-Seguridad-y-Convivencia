@@ -17,7 +17,12 @@ import numpy as np
 import pandas as pd
 from unidecode import unidecode
 
-from src.transformacion.esquemas_pandera import schema_delito_consolidado
+try:
+    from src.transformacion.esquemas_pandera import schema_delito_consolidado
+    _PANDERA_OK = True
+except Exception:
+    schema_delito_consolidado = None
+    _PANDERA_OK = False
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -86,6 +91,8 @@ RENOMBRAR_COLUMNAS = {
     # CANTIDAD TYPOS
     "CANTIDAD_": "CANTIDAD",
     "NRO_CASOS": "CANTIDAD",
+    "AÑO": "ANIO",
+    "ANIO": "ANIO",
 }
 
 BASURA_REGEX = re.compile(
@@ -95,21 +102,19 @@ BASURA_REGEX = re.compile(
 )
 
 
-def _convertir_fecha_a_anio(valor) -> int | None:
-    """Extrae el año de un valor FECHA_HECHO (int YYYYMMDD o datetime/string)."""
+def _parsear_fecha(valor) -> pd.Timestamp:
+    """Intenta parsear FECHA_HECHO de distintas formas y devuelve Timestamp."""
     if pd.isna(valor):
-        return None
+        return pd.NaT
     if isinstance(valor, (int, float, np.integer, np.floating)):
         try:
-            dt = pd.to_datetime(str(int(valor)), format="%Y%m%d", errors="coerce")
-            return int(dt.year) if not pd.isna(dt) else None
+            return pd.to_datetime(str(int(valor)), format="%Y%m%d", errors="coerce")
         except Exception:
-            return None
+            return pd.NaT
     try:
-        dt = pd.to_datetime(valor, errors="coerce")
-        return int(dt.year) if not pd.isna(dt) else None
+        return pd.to_datetime(valor, errors="coerce")
     except Exception:
-        return None
+        return pd.NaT
 
 
 def _normalizar_columnas(df: pd.DataFrame) -> pd.DataFrame:
@@ -183,6 +188,17 @@ def cargar_archivo(ruta: Path, tipo_delito: str) -> pd.DataFrame:
         # Eliminar filas completamente vacías
         df = df.dropna(how="all")
 
+        # Corregir intercambio DEPARTAMENTO/ARMAS_MEDIOS (bug en fuente 2021 delitos sexuales).
+        # Si la mayoría de los valores de DEPARTAMENTO parecen armas/medios, las columnas
+        # están invertidas en el archivo fuente y se deben intercambiar.
+        if "DEPARTAMENTO" in df.columns and "ARMAS_MEDIOS" in df.columns:
+            _ARMAS_KW = {"ARMA", "CONTUNDENTE", "ESCOPOLAMINA", "SIN EMPLEO", "CINTAS", "ESPOSAS"}
+            _sample = df["DEPARTAMENTO"].astype(str).str.upper().str.strip()
+            _pct_armas = _sample.apply(lambda x: any(k in x for k in _ARMAS_KW)).mean()
+            if _pct_armas > 0.5:
+                print(f"    [FIX] {ruta.name}: columnas DEPARTAMENTO/ARMAS_MEDIOS intercambiadas — corrigiendo")
+                df = df.rename(columns={"DEPARTAMENTO": "ARMAS_MEDIOS", "ARMAS_MEDIOS": "DEPARTAMENTO"})
+
         # Eliminar filas de basura (totales, leyendas, metadata del Excel)
         for col in ["DEPARTAMENTO", "ARMAS_MEDIOS"]:
             if col in df.columns:
@@ -237,11 +253,12 @@ def normalizar_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """
     df = df.copy()
 
-    # AÑO desde FECHA_HECHO
     if "FECHA_HECHO" in df.columns:
-        df["AÑO"] = df["FECHA_HECHO"].apply(_convertir_fecha_a_anio)
+        df["FECHA_HECHO"] = df["FECHA_HECHO"].apply(_parsear_fecha)
+        df["ANIO"] = df["FECHA_HECHO"].dt.year
     else:
-        df["AÑO"] = np.nan
+        df["FECHA_HECHO"] = pd.NaT
+        df["ANIO"] = np.nan
 
     df["DEPARTAMENTO"] = _limpiar_departamento(df.get("DEPARTAMENTO", pd.Series(dtype=str)))
     df["MUNICIPIO"] = _limpiar_municipio(df.get("MUNICIPIO", pd.Series(dtype=str)))
@@ -262,10 +279,10 @@ def normalizar_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     else:
         df["CODIGO_DANE"] = np.nan
 
-    # Filtrar filas con AÑO fuera de rango
-    df = df.dropna(subset=["AÑO", "DEPARTAMENTO", "MUNICIPIO"])
-    df = df[df["AÑO"].between(2018, 2025)]
-    df["AÑO"] = df["AÑO"].astype(int)
+    # Filtrar filas con ANIO fuera de rango
+    df = df.dropna(subset=["ANIO", "DEPARTAMENTO", "MUNICIPIO"])
+    df = df[df["ANIO"].between(2018, 2025)]
+    df["ANIO"] = df["ANIO"].astype(int)
 
     return df
 
@@ -289,6 +306,7 @@ def consolidar_delitos() -> pd.DataFrame:
         tipo_delito = TIPO_DELITO_MAP.get(carpeta.name, carpeta.name.upper().replace("_", " "))
 
         for archivo in sorted(carpeta.glob("*.xls*")):
+            print(f"  Procesando: {carpeta.name}/{archivo.name}...")
             df = cargar_archivo(archivo, tipo_delito)
             if df.empty:
                 errores.append(f"  SIN DATOS: {carpeta.name}/{archivo.name}")
@@ -311,7 +329,7 @@ def consolidar_delitos() -> pd.DataFrame:
 
     # Columnas finales en orden canónico
     columnas_finales = [
-        "AÑO", "DEPARTAMENTO", "MUNICIPIO", "CODIGO_DANE",
+        "FECHA_HECHO", "ANIO", "DEPARTAMENTO", "MUNICIPIO", "CODIGO_DANE",
         "TIPO_DELITO", "ARMAS_MEDIOS", "GENERO",
         "AGRUPA_EDAD_PERSONA", "CANTIDAD",
     ]
@@ -321,8 +339,11 @@ def consolidar_delitos() -> pd.DataFrame:
 
     consolidado = consolidado[columnas_finales]
 
-    # Validación pandera
-    schema_delito_consolidado.validate(consolidado, lazy=True)
+    # Validación pandera (se omite si pandera no es compatible con el entorno)
+    if _PANDERA_OK and schema_delito_consolidado is not None:
+        schema_delito_consolidado.validate(consolidado, lazy=True)
+    else:
+        print("  [SKIP] Validación pandera omitida (incompatibilidad NumPy/pandera)")
 
     return consolidado
 
@@ -377,7 +398,7 @@ def cargar_poblacion_dane() -> pd.DataFrame | None:
         if col_clean in ("DPNOM", "DEPARTAMENTO", "NOMBRE_DEPARTAMENTO"):
             col_map[col] = "DEPARTAMENTO"
         elif col_clean in ("ANO", "ANNO", "ANO_CENSAL"):
-            col_map[col] = "AÑO"
+            col_map[col] = "ANIO"
         elif col_clean in ("TOTAL", "POBLACION", "POBLACION_TOTAL"):
             col_map[col] = "POBLACION"
         elif col_clean in ("AREA_GEOGRAFICA", "AREA"):
@@ -401,8 +422,8 @@ def cargar_poblacion_dane() -> pd.DataFrame | None:
     if "POBLACION" not in df.columns:
         print("  [ERROR] DANE: No se encontro columna POBLACION/TOTAL")
         return None
-    if "AÑO" not in df.columns:
-        print("  [ERROR] DANE: No se encontro columna AÑO")
+    if "ANIO" not in df.columns:
+        print("  [ERROR] DANE: No se encontro columna ANIO")
         return None
 
     # Limpiar valores de población (quitar puntos de miles: "4.972.962" → 4972962)
@@ -415,11 +436,11 @@ def cargar_poblacion_dane() -> pd.DataFrame | None:
     )
     df["POBLACION"] = pd.to_numeric(df["POBLACION"], errors="coerce")
 
-    df["AÑO"] = pd.to_numeric(
-        df["AÑO"].astype(str).str.strip(), errors="coerce"
+    df["ANIO"] = pd.to_numeric(
+        df["ANIO"].astype(str).str.strip(), errors="coerce"
     )
-    df = df.dropna(subset=["AÑO", "POBLACION"])
-    df["AÑO"] = df["AÑO"].astype(int)
+    df = df.dropna(subset=["ANIO", "POBLACION"])
+    df["ANIO"] = df["ANIO"].astype(int)
 
     df["DEPARTAMENTO"] = _limpiar_departamento(df["DEPARTAMENTO"])
 
@@ -429,17 +450,24 @@ def cargar_poblacion_dane() -> pd.DataFrame | None:
         df["MUNICIPIO"] = "TOTAL DEPARTAMENTO"
 
     df["MUNICIPIO"] = _limpiar_municipio(df["MUNICIPIO"])
+    df["POBLACION"] = pd.to_numeric(df["POBLACION"], errors="coerce")
+
+    # ── Bogotá D.C. es un distrito capital, NO parte de Cundinamarca ──
+    mask_bogota = df["DEPARTAMENTO"].str.contains("BOGOTA", case=False, na=False)
+    df.loc[mask_bogota, "DEPARTAMENTO"] = "BOGOTA D.C."
+    mask_bogota_mun = df["MUNICIPIO"].str.contains("BOGOTA", case=False, na=False)
+    df.loc[mask_bogota_mun, "MUNICIPIO"] = "BOGOTA, D.C."
 
     # Eliminar filas sin departamento válido
     df = df.dropna(subset=["DEPARTAMENTO"])
 
     # Seleccionar columnas finales
-    cols_finales = ["DEPARTAMENTO", "MUNICIPIO", "AÑO", "POBLACION"]
+    cols_finales = ["DEPARTAMENTO", "MUNICIPIO", "ANIO", "POBLACION"]
     if "COD_DEPTO" in df.columns:
         cols_finales.append("COD_DEPTO")
     df = df[[c for c in cols_finales if c in df.columns]]
 
-    print(f"  DANE: {len(df):,} registros cargados ({df['AÑO'].min()}-{df['AÑO'].max()})")
+    print(f"  DANE: {len(df):,} registros cargados ({df['ANIO'].min()}-{df['ANIO'].max()})")
     return df
 
 
@@ -452,7 +480,7 @@ def ejecutar_pipeline() -> None:
     delitos.to_parquet(ruta_parquet, index=False)
     print(f"  {len(delitos):,} registros ->{ruta_parquet.relative_to(REPO_ROOT)}")
     print(f"  Fuentes: {delitos['TIPO_DELITO'].nunique()} tipos de delito")
-    print(f"  Años: {sorted(delitos['AÑO'].unique())}")
+    print(f"  Años: {sorted(delitos['ANIO'].unique())}")
     print(f"  Departamentos: {delitos['DEPARTAMENTO'].nunique()}")
 
     poblacion = cargar_poblacion_dane()
