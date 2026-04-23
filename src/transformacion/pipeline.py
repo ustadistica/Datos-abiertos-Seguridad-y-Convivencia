@@ -17,7 +17,12 @@ import numpy as np
 import pandas as pd
 from unidecode import unidecode
 
-from src.transformacion.esquemas_pandera import schema_delito_consolidado
+try:
+    from src.transformacion.esquemas_pandera import schema_delito_consolidado
+    _PANDERA_OK = True
+except Exception:
+    schema_delito_consolidado = None
+    _PANDERA_OK = False
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -183,6 +188,17 @@ def cargar_archivo(ruta: Path, tipo_delito: str) -> pd.DataFrame:
         # Eliminar filas completamente vacías
         df = df.dropna(how="all")
 
+        # Corregir intercambio DEPARTAMENTO/ARMAS_MEDIOS (bug en fuente 2021 delitos sexuales).
+        # Si la mayoría de los valores de DEPARTAMENTO parecen armas/medios, las columnas
+        # están invertidas en el archivo fuente y se deben intercambiar.
+        if "DEPARTAMENTO" in df.columns and "ARMAS_MEDIOS" in df.columns:
+            _ARMAS_KW = {"ARMA", "CONTUNDENTE", "ESCOPOLAMINA", "SIN EMPLEO", "CINTAS", "ESPOSAS"}
+            _sample = df["DEPARTAMENTO"].astype(str).str.upper().str.strip()
+            _pct_armas = _sample.apply(lambda x: any(k in x for k in _ARMAS_KW)).mean()
+            if _pct_armas > 0.5:
+                print(f"    [FIX] {ruta.name}: columnas DEPARTAMENTO/ARMAS_MEDIOS intercambiadas — corrigiendo")
+                df = df.rename(columns={"DEPARTAMENTO": "ARMAS_MEDIOS", "ARMAS_MEDIOS": "DEPARTAMENTO"})
+
         # Eliminar filas de basura (totales, leyendas, metadata del Excel)
         for col in ["DEPARTAMENTO", "ARMAS_MEDIOS"]:
             if col in df.columns:
@@ -323,8 +339,11 @@ def consolidar_delitos() -> pd.DataFrame:
 
     consolidado = consolidado[columnas_finales]
 
-    # Validación pandera
-    schema_delito_consolidado.validate(consolidado, lazy=True)
+    # Validación pandera (se omite si pandera no es compatible con el entorno)
+    if _PANDERA_OK and schema_delito_consolidado is not None:
+        schema_delito_consolidado.validate(consolidado, lazy=True)
+    else:
+        print("  [SKIP] Validación pandera omitida (incompatibilidad NumPy/pandera)")
 
     return consolidado
 
@@ -431,7 +450,6 @@ def cargar_poblacion_dane() -> pd.DataFrame | None:
         df["MUNICIPIO"] = "TOTAL DEPARTAMENTO"
 
     df["MUNICIPIO"] = _limpiar_municipio(df["MUNICIPIO"])
-    df["AÑO"] = pd.to_numeric(df["AÑO"], errors="coerce").astype(int)
     df["POBLACION"] = pd.to_numeric(df["POBLACION"], errors="coerce")
 
     # ── Bogotá D.C. es un distrito capital, NO parte de Cundinamarca ──

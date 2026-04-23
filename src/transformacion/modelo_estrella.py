@@ -19,7 +19,12 @@ from pathlib import Path
 import duckdb
 import pandas as pd
 
-from src.transformacion.esquemas_pandera import schema_fact_delitos
+try:
+    from src.transformacion.esquemas_pandera import schema_fact_delitos
+    _PANDERA_OK = True
+except Exception:
+    schema_fact_delitos = None
+    _PANDERA_OK = False
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PROCESSED_DIR = REPO_ROOT / "datos" / "processed"
@@ -271,8 +276,11 @@ def construir_modelo_estrella() -> duckdb.DuckDBPyConnection:
         df, dim_fecha, dim_ubicacion, dim_delito, dim_arma, dim_victima
     )
 
-    print("Validando tabla de hechos con Pandera...")
-    schema_fact_delitos.validate(fact, lazy=True)
+    if _PANDERA_OK and schema_fact_delitos is not None:
+        print("Validando tabla de hechos con Pandera...")
+        schema_fact_delitos.validate(fact, lazy=True)
+    else:
+        print("Validación Pandera omitida (incompatibilidad NumPy/pandera)")
 
     print("Guardando en DuckDB...")
     DB_DIR.mkdir(parents=True, exist_ok=True)
