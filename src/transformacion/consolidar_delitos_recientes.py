@@ -389,10 +389,10 @@ reemplazos_dptos = {
     "GUAJIRA": "LA GUAJIRA",
     "VALLE": "VALLE DEL CAUCA",
     "SAN ANDRES": "ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA",
-    "BOGOTA": "CUNDINAMARCA",  # Bogotá se trata como municipio de Cundinamarca
+    "BOGOTA": "BOGOTÁ, D.C.",  # Bogotá se trata como municipio de Cundinamarca
 }
 df_2022['DEPARTAMENTO'] = df_2022['DEPARTAMENTO'].replace(reemplazos_dptos)
-divipola['dpto'] = divipola['dpto'].replace({"BOGOTA, D.C.": "CUNDINAMARCA"})
+divipola['dpto'] = divipola['dpto'].replace({"BOGOTA, D.C.": "BOGOTÁ, D.C."})
 
 # --- 7. Correcciones finales de municipios problemáticos ---
 reemplazos_mpios_final = {
@@ -425,13 +425,13 @@ df_2022.loc[df_2022['MUNICIPIO'] == "SAN ANDRES", 'DEPARTAMENTO'] = "ARCHIPIELAG
 
 # --- 9. Ajuste especial de Bogotá ---
 mask_bogota = df_2022['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-df_2022.loc[mask_bogota, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+df_2022.loc[mask_bogota, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
 df_2022.loc[mask_bogota, 'MUNICIPIO'] = 'BOGOTA, D.C.'
 
 divipola.loc[
     divipola['nom_mpio'].str.contains('BOGOTA', case=False, na=False),
     ['dpto', 'nom_mpio']
-] = ['CUNDINAMARCA', 'BOGOTA, D.C.']
+] = ['BOGOTÁ, D.C.', 'BOGOTÁ, D.C.']
 
 # --- 10. Correcciones finales (últimos 5 municipios) ---
 reemplazos_finales_extra = {
@@ -528,7 +528,7 @@ reemplazos_dptos = {
     "GUAJIRA": "LA GUAJIRA",
     "VALLE": "VALLE DEL CAUCA",
     "SAN ANDRES": "ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA",
-    "BOGOTA": "CUNDINAMARCA",
+    "BOGOTA": "BOGOTÁ, D.C.",
 }
 if 'DEPARTAMENTO' in df_2022.columns:
     df_2022['DEPARTAMENTO'] = df_2022['DEPARTAMENTO'].replace(reemplazos_dptos)
@@ -536,7 +536,7 @@ if 'DEPARTAMENTO' in df_2022.columns:
 # --- 5. Corrección especial de Bogotá ---
 if 'MUNICIPIO' in df_2022.columns and 'DEPARTAMENTO' in df_2022.columns:
     mask_bogota = df_2022['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-    df_2022.loc[mask_bogota, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+    df_2022.loc[mask_bogota, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
     df_2022.loc[mask_bogota, 'MUNICIPIO'] = 'BOGOTÁ, D.C.'
 
 # --- 6. Reemplazos y correcciones en municipios (divipola) ---
@@ -551,7 +551,7 @@ if 'nom_mpio' in divipola.columns and 'dpto' in divipola.columns:
     divipola.loc[
         divipola['nom_mpio'].str.contains('BOGOTA', case=False, na=False),
         ['dpto', 'nom_mpio']
-    ] = ['CUNDINAMARCA', 'BOGOTÁ, D.C.']
+    ] = ['BOGOTÁ, D.C.', 'BOGOTÁ, D.C.']
 
 # --- 8. Agregar año a df_2022 ---
 df_2022['AÑO'] = 2022
@@ -819,7 +819,7 @@ reemplazos_dptos = {
     "GUAJIRA": "LA GUAJIRA",
     "VALLE": "VALLE DEL CAUCA",
     "SAN ANDRES": "ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA",
-    "BOGOTA": "CUNDINAMARCA",
+    "BOGOTA": "BOGOTÁ, D.C.",
 }
 merged_final['DEPARTAMENTO'] = merged_final['DEPARTAMENTO'].replace(reemplazos_dptos)
 pob_2022['DEPARTAMENTO'] = pob_2022['DEPARTAMENTO'].replace(reemplazos_dptos)
@@ -827,11 +827,11 @@ pob_2022['DEPARTAMENTO'] = pob_2022['DEPARTAMENTO'].replace(reemplazos_dptos)
 
 # --- 5. Corrección especial de Bogotá ---
 mask_bogota = merged_final['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-merged_final.loc[mask_bogota, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+merged_final.loc[mask_bogota, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
 merged_final.loc[mask_bogota, 'MUNICIPIO'] = 'BOGOTÁ, D.C.'
 
 mask_bogota_pob = pob_2022['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-pob_2022.loc[mask_bogota_pob, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+pob_2022.loc[mask_bogota_pob, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
 pob_2022.loc[mask_bogota_pob, 'MUNICIPIO'] = 'BOGOTÁ, D.C.'
 
 
@@ -1184,10 +1184,10 @@ reemplazos_dptos = {
     "GUAJIRA": "LA GUAJIRA",
     "VALLE": "VALLE DEL CAUCA",
     "SAN ANDRES": "ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA",
-    "BOGOTA": "CUNDINAMARCA",  # Bogotá se trata como municipio de Cundinamarca
+    "BOGOTA": "BOGOTÁ, D.C.",  # Bogotá se trata como municipio de Cundinamarca
 }
 df_2023['DEPARTAMENTO'] = df_2023['DEPARTAMENTO'].replace(reemplazos_dptos)
-divipola['dpto'] = divipola['dpto'].replace({"BOGOTA, D.C.": "CUNDINAMARCA"})
+divipola['dpto'] = divipola['dpto'].replace({"BOGOTA, D.C.": "BOGOTÁ, D.C."})
 
 # --- 6. Correcciones finales de municipios problemáticos ---
 reemplazos_mpios_final = {
@@ -1220,13 +1220,13 @@ df_2023.loc[df_2023['MUNICIPIO'] == "SAN ANDRES", 'DEPARTAMENTO'] = "ARCHIPIELAG
 
 # --- 8. Ajuste especial de Bogotá ---
 mask_bogota = df_2023['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-df_2023.loc[mask_bogota, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+df_2023.loc[mask_bogota, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
 df_2023.loc[mask_bogota, 'MUNICIPIO'] = 'BOGOTA, D.C.'
 
 divipola.loc[
     divipola['nom_mpio'].str.contains('BOGOTA', case=False, na=False),
     ['dpto', 'nom_mpio']
-] = ['CUNDINAMARCA', 'BOGOTA, D.C.']
+] = ['BOGOTÁ, D.C.', 'BOGOTÁ, D.C.']
 
 # --- 9. Correcciones finales (últimos 5 municipios) ---
 reemplazos_finales_extra = {
@@ -1445,7 +1445,7 @@ reemplazos_dptos = {
     "GUAJIRA": "LA GUAJIRA",
     "VALLE": "VALLE DEL CAUCA",
     "SAN ANDRES": "ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA",
-    "BOGOTA": "CUNDINAMARCA",
+    "BOGOTA": "BOGOTÁ, D.C.",
 }
 merged_final['DEPARTAMENTO'] = merged_final['DEPARTAMENTO'].replace(reemplazos_dptos)
 pob_2023['DEPARTAMENTO'] = pob_2023['DEPARTAMENTO'].replace(reemplazos_dptos)
@@ -1453,11 +1453,11 @@ pob_2023['DEPARTAMENTO'] = pob_2023['DEPARTAMENTO'].replace(reemplazos_dptos)
 
 # --- 5. Corrección especial de Bogotá ---
 mask_bogota = merged_final['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-merged_final.loc[mask_bogota, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+merged_final.loc[mask_bogota, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
 merged_final.loc[mask_bogota, 'MUNICIPIO'] = 'BOGOTÁ, D.C.'
 
 mask_bogota_pob = pob_2023['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-pob_2023.loc[mask_bogota_pob, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+pob_2023.loc[mask_bogota_pob, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
 pob_2023.loc[mask_bogota_pob, 'MUNICIPIO'] = 'BOGOTÁ, D.C.'
 
 
@@ -1814,10 +1814,10 @@ reemplazos_dptos = {
     "GUAJIRA": "LA GUAJIRA",
     "VALLE": "VALLE DEL CAUCA",
     "SAN ANDRES": "ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA",
-    "BOGOTA": "CUNDINAMARCA",  # Bogotá se trata como municipio de Cundinamarca
+    "BOGOTA": "BOGOTÁ, D.C.",  # Bogotá se trata como municipio de Cundinamarca
 }
 df_2024['DEPARTAMENTO'] = df_2024['DEPARTAMENTO'].replace(reemplazos_dptos)
-divipola['dpto'] = divipola['dpto'].replace({"BOGOTA, D.C.": "CUNDINAMARCA"})
+divipola['dpto'] = divipola['dpto'].replace({"BOGOTA, D.C.": "BOGOTÁ, D.C."})
 
 # --- 6. Correcciones finales de municipios problemáticos ---
 reemplazos_mpios_final = {
@@ -1850,13 +1850,13 @@ df_2024.loc[df_2024['MUNICIPIO'] == "SAN ANDRES", 'DEPARTAMENTO'] = "ARCHIPIELAG
 
 # --- 8. Ajuste especial de Bogotá ---
 mask_bogota = df_2024['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-df_2024.loc[mask_bogota, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+df_2024.loc[mask_bogota, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
 df_2024.loc[mask_bogota, 'MUNICIPIO'] = 'BOGOTA, D.C.'
 
 divipola.loc[
     divipola['nom_mpio'].str.contains('BOGOTA', case=False, na=False),
     ['dpto', 'nom_mpio']
-] = ['CUNDINAMARCA', 'BOGOTA, D.C.']
+] = ['BOGOTÁ, D.C.', 'BOGOTÁ, D.C.']
 
 # --- 9. Correcciones finales (últimos 5 municipios) ---
 reemplazos_finales_extra = {
@@ -2074,7 +2074,7 @@ reemplazos_dptos = {
     "GUAJIRA": "LA GUAJIRA",
     "VALLE": "VALLE DEL CAUCA",
     "SAN ANDRES": "ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA",
-    "BOGOTA": "CUNDINAMARCA",
+    "BOGOTA": "BOGOTÁ, D.C.",
 }
 merged_final['DEPARTAMENTO'] = merged_final['DEPARTAMENTO'].replace(reemplazos_dptos)
 pob_2024['DEPARTAMENTO'] = pob_2024['DEPARTAMENTO'].replace(reemplazos_dptos)
@@ -2082,11 +2082,11 @@ pob_2024['DEPARTAMENTO'] = pob_2024['DEPARTAMENTO'].replace(reemplazos_dptos)
 
 # --- 5. Corrección especial de Bogotá ---
 mask_bogota = merged_final['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-merged_final.loc[mask_bogota, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+merged_final.loc[mask_bogota, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
 merged_final.loc[mask_bogota, 'MUNICIPIO'] = 'BOGOTÁ, D.C.'
 
 mask_bogota_pob = pob_2024['MUNICIPIO'].str.contains('BOGOTA', case=False, na=False)
-pob_2024.loc[mask_bogota_pob, 'DEPARTAMENTO'] = 'CUNDINAMARCA'
+pob_2024.loc[mask_bogota_pob, 'DEPARTAMENTO'] = 'BOGOTÁ, D.C.'
 pob_2024.loc[mask_bogota_pob, 'MUNICIPIO'] = 'BOGOTÁ, D.C.'
 
 

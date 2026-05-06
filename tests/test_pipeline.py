@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 from src.transformacion.pipeline import (
-    _convertir_fecha_a_anio,
+    _parsear_fecha,
     _normalizar_columnas,
     normalizar_dataframe,
     TIPO_DELITO_MAP,
@@ -14,31 +14,31 @@ from src.transformacion.pipeline import (
 
 
 # ---------------------------------------------------------------------------
-# _convertir_fecha_a_anio
+# _parsear_fecha
 # ---------------------------------------------------------------------------
 
-class TestConvertirFechaAAnio:
+class TestParsearFecha:
     def test_entero_yyyymmdd(self):
-        assert _convertir_fecha_a_anio(20210315) == 2021
+        assert _parsear_fecha(20210315).year == 2021
 
     def test_float_yyyymmdd(self):
-        assert _convertir_fecha_a_anio(20180101.0) == 2018
+        assert _parsear_fecha(20180101.0).year == 2018
 
     def test_string_fecha(self):
-        assert _convertir_fecha_a_anio("2022-07-04") == 2022
+        assert _parsear_fecha("2022-07-04").year == 2022
 
     def test_datetime(self):
         dt = pd.Timestamp("2023-12-31")
-        assert _convertir_fecha_a_anio(dt) == 2023
+        assert _parsear_fecha(dt).year == 2023
 
-    def test_nan_retorna_none(self):
-        assert _convertir_fecha_a_anio(np.nan) is None
+    def test_nan_retorna_nat(self):
+        assert pd.isna(_parsear_fecha(np.nan))
 
-    def test_none_retorna_none(self):
-        assert _convertir_fecha_a_anio(None) is None
+    def test_none_retorna_nat(self):
+        assert pd.isna(_parsear_fecha(None))
 
-    def test_valor_invalido_retorna_none(self):
-        assert _convertir_fecha_a_anio("no-es-fecha") is None
+    def test_valor_invalido_retorna_nat(self):
+        assert pd.isna(_parsear_fecha("no-es-fecha"))
 
 
 # ---------------------------------------------------------------------------
