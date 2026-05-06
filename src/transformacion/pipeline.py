@@ -29,7 +29,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = REPO_ROOT / "datos" / "raw"
 PROCESSED_DIR = REPO_ROOT / "datos" / "processed"
-DANE_PATH = RAW_DIR / "poblacion" / "dane_poblacion_municipios_2018_2024.csv"
+DANE_PATH = RAW_DIR / "poblacion" / "dane_poblacion_departamentos_2018_2024.csv"
 
 # ---------------------------------------------------------------------------
 # Mapeo de nombre de carpeta ->etiqueta legible de TIPO_DELITO

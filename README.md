@@ -48,7 +48,7 @@ Para calcular tasas de delitos por 100.000 habitantes se utilizan las proyeccion
 - **Formato:** csv
 - **Cobertura:** 2018–2024
 - **Descarga:** Manual (no automatizable). Visitar el portal y buscar *"Proyecciones de población municipales y departamentales 2018-2035"*.
-- **Archivo esperado:** `datos/raw/poblacion/dane_poblacion_municipios_2018_2024.csv`
+- **Archivo esperado:** `datos/raw/poblacion/dane_poblacion_departamentos_2018_2024.csv`
 
 ### Catálogo de datos
 

@@ -49,7 +49,7 @@ dim_arma ─── fact_delitos ─── dim_ubicacion
 - **Delitos**: Policía Nacional de Colombia — datos abiertos por tipo de delito,
   municipio, arma, género y grupo de edad (2018-2024).
 - **Población**: DANE — Proyecciones de población municipal (descarga manual,
-  ruta esperada: `datos/raw/poblacion/dane_poblacion_municipios_2018_2024.xlsx`).
+  ruta esperada: `datos/raw/poblacion/dane_poblacion_departamentos_2018_2024.csv`).
 
 ## Reproducción
 
