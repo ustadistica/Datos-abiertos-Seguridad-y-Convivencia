@@ -30,7 +30,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 PROCESSED_DIR = REPO_ROOT / "datos" / "processed"
 DB_DIR = REPO_ROOT / "datos" / "db"
 PARQUET_DELITOS = PROCESSED_DIR / "delitos_consolidados.parquet"
-PARQUET_POBLACION = PROCESSED_DIR / "poblacion_dane.parquet"
+PARQUET_POBLACION_DEPTO = PROCESSED_DIR / "poblacion_dane_departamental.parquet"
+PARQUET_POBLACION_LEGACY = PROCESSED_DIR / "poblacion_dane.parquet"
 DB_PATH = DB_DIR / "seguridad_convivencia.duckdb"
 
 
@@ -297,10 +298,11 @@ def construir_modelo_estrella() -> duckdb.DuckDBPyConnection:
         con.register(f"_{nombre}_tmp", tabla)
         con.execute(f"CREATE OR REPLACE TABLE {nombre} AS SELECT * FROM _{nombre}_tmp")
 
-    # Enriquecer con población si existe
-    if PARQUET_POBLACION.exists():
-        print("Enriqueciendo con datos de poblacion DANE (tasa_x_100k)...")
-        poblacion = pd.read_parquet(PARQUET_POBLACION)
+    # Enriquecer con población si existe (preferir departamental, fallback a legacy)
+    _pob_path = PARQUET_POBLACION_DEPTO if PARQUET_POBLACION_DEPTO.exists() else PARQUET_POBLACION_LEGACY
+    if _pob_path.exists():
+        print(f"Enriqueciendo con datos de poblacion DANE (tasa_x_100k) desde {_pob_path.name}...")
+        poblacion = pd.read_parquet(_pob_path)
         _enriquecer_con_poblacion(con, poblacion)
     else:
         # Agregar columna tasa_x_100k en NULL

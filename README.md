@@ -69,26 +69,22 @@ Datos-abiertos-Seguridad-y-Convivencia/
 |-- CONTRIBUTING.md              # Guia de contribucion y Git Flow
 |-- pyproject.toml               # Poetry (dependencias + metadata)
 |-- Dockerfile                   # Contenedor reproducible
-|-- .github/
-|   +-- workflows/
-|       +-- etl_update.yml       # GitHub Actions para ingesta periodica
 |-- src/
-|   |-- ingesta/                 # Scripts de extraccion (sodapy)
-|   |-- transformacion/          # Limpieza, normalizacion, joins
-|   |-- modelo/                  # Modelo estrella / modelado estadistico
-|   +-- visualizacion/           # Funciones de graficos reutilizables
+|   |-- ingesta/                 # Descarga HTTP directa de Excel (Policia Nacional)
+|   |-- transformacion/          # Limpieza, normalizacion, modelo estrella, tabla maestra
+|   +-- visualizacion/           # Mapas coropleticos, series temporales
 |-- notebooks/
 |   |-- 01_eda.ipynb
-|   |-- 02_analisis.ipynb
-|   +-- 03_modelado.ipynb
+|   +-- 02_analisis.ipynb
 |-- app/
 |   +-- streamlit_app.py         # Dashboard interactivo
 |-- datos/
-|   |-- raw/                     # Datos crudos (gitignored si pesados)
-|   |-- processed/               # Datos limpios
+|   |-- raw/                     # Datos crudos (gitignored)
+|   |-- processed/               # Parquets procesados (gitignored)
+|   |-- db/                      # DuckDB modelo estrella (gitignored)
 |   +-- catalogo.yaml            # Metadatos de cada dataset
-|-- docs/                        # Informes y documentacion
-|-- tests/                       # Tests automatizados
+|-- docs/                        # Informes y documentacion metodologica
+|-- tests/                       # Tests automatizados (pytest)
 |-- artifacts/                   # Artefactos generados (metricas, reportes)
 +-- models/                      # Modelos serializados
 ```
@@ -157,7 +153,7 @@ Si tienes problemas con los notebooks (kernel crashea, errores de carga):
 
 ## Cronograma -- CRISP-DM
 
-### Sprint 1 (Sem 1-2)
+### Sprint 1 (Sem 1-2) - **[COMPLETADO]**
 
 Reestructuración del repo + migración a Poetry. Renombrar archivos, consolidar links en `datos/catalogo.yaml`, reorganizar según template estándar.
 
@@ -173,9 +169,13 @@ Dashboard Streamlit de producción implementado:
 - Navegación optimizada (teclado + segmented controls).
 - Cálculo dinámico de métricas rigurosas (tasas ponderadas).
 
-### Sprint 4 (Sem 8)
+### Sprint 5 (Sem 9-10) - **[EN CURSO]**
 
-Modelado predictivo: series de tiempo (Prophet/ARIMA), clustering de municipios por perfil delictivo (K-means/HDBSCAN).
+Tabla maestra para horizonte H3 — Inequidad territorial:
+- Proyección de IPM municipal 2018-2024 por ratio departamental.
+- Procesamiento de población municipal DANE (PPED 2018-2042).
+- Panel longitudinal de 1.122 municipios × 7 años con tasas, quintiles e indicadores de inequidad.
+- Documentación metodológica: [`docs/metodologia_tabla_maestra_h3.md`](docs/metodologia_tabla_maestra_h3.md).
 
 
 ## Equipo
@@ -201,7 +201,7 @@ Consultar [CONTRIBUTING.md](CONTRIBUTING.md) para la guia completa de contribuci
 
 | Capa | Herramientas |
 |------|-------------|
-| Ingesta | sodapy, pandas, requests |
+| Ingesta | pandas, requests, pyyaml |
 | Almacen | DuckDB (modelo estrella) |
 | Analisis | pandas, scikit-learn, statsmodels |
 | Visualizacion | matplotlib, seaborn, plotly, folium |

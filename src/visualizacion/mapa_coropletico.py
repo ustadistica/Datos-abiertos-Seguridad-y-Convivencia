@@ -26,7 +26,9 @@ import requests
 REPO_ROOT        = Path(__file__).resolve().parents[2]
 DB_PATH          = REPO_ROOT / "datos" / "db" / "seguridad_convivencia.duckdb"
 GEOJSON_CACHE    = REPO_ROOT / "datos" / "interim" / "departamentos_colombia.geojson"
-PARQUET_POBLACION = REPO_ROOT / "datos" / "processed" / "poblacion_dane.parquet"
+_PARQUET_POBLACION_DEPTO  = REPO_ROOT / "datos" / "processed" / "poblacion_dane_departamental.parquet"
+_PARQUET_POBLACION_LEGACY = REPO_ROOT / "datos" / "processed" / "poblacion_dane.parquet"
+PARQUET_POBLACION = _PARQUET_POBLACION_DEPTO if _PARQUET_POBLACION_DEPTO.exists() else _PARQUET_POBLACION_LEGACY
 
 GEOJSON_DEPTO_URL = (
     "https://gist.githubusercontent.com/john-guerra/"

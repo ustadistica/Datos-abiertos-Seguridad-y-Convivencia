@@ -15,8 +15,9 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-RAW = Path("datos/raw")
-PROCESSED = Path("datos/processed")
+REPO_ROOT = Path(__file__).resolve().parents[2]
+RAW = REPO_ROOT / "datos" / "raw"
+PROCESSED = REPO_ROOT / "datos" / "processed"
 PROCESSED.mkdir(parents=True, exist_ok=True)
 
 ARCHIVO_MUNICIPAL = RAW / "ipm_municipal_colombia_2018_2024.xlsx"
