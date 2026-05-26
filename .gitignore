@@ -2,7 +2,6 @@
 # DIRECTORIOS DE DATOS (nunca versionar)
 # ======================================
 datos/raw/
-datos/processed/
 datos/db/
 datos/interim/
 
