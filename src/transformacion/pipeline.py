@@ -485,7 +485,7 @@ def ejecutar_pipeline() -> None:
 
     poblacion = cargar_poblacion_dane()
     if poblacion is not None:
-        ruta_pob = PROCESSED_DIR / "poblacion_dane.parquet"
+        ruta_pob = PROCESSED_DIR / "poblacion_dane_departamental.parquet"
         poblacion.to_parquet(ruta_pob, index=False)
         print(f"  Población DANE: {len(poblacion):,} registros ->{ruta_pob.relative_to(REPO_ROOT)}")
 

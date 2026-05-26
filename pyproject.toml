@@ -16,7 +16,6 @@ plotly = "^5.18"
 streamlit = "^1.31"
 jupyter = "^1.0"
 scikit-learn = "^1.4"
-sodapy = "^2.2"
 duckdb = "^1.0"
 folium = "^0.16"
 prophet = "^1.1"
@@ -35,6 +34,7 @@ pytest = "^8.0"
 pytest-cov = "^4.1"
 ruff = "^0.3"
 black = "^24.0"
+jupytext = "^1.19.2"
 
 [build-system]
 requires = ["poetry-core"]

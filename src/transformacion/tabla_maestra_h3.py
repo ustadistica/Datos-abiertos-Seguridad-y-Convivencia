@@ -22,7 +22,8 @@ import pandas as pd
 import numpy as np
 from unidecode import unidecode
 
-PROCESSED = Path("datos/processed")
+REPO_ROOT = Path(__file__).resolve().parents[2]
+PROCESSED = REPO_ROOT / "datos" / "processed"
 ANOS      = list(range(2018, 2025))
 
 GRUPOS_DELITO = {
