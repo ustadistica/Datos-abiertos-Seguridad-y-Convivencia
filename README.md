@@ -1,97 +1,98 @@
 # Observatorio de Seguridad y Convivencia
 
-> **Ustadistica** -- Consultoria e Investigacion . Universidad Santo Tomas . 2026-I
+> **Ustadistica** — Consultoría e Investigación Estadística · Universidad Santo Tomás · 2026-I
 
-Observatorio de datos abiertos de seguridad y convivencia ciudadana en Colombia. Análisis de delitos 2018-2024 con datos de la Policía Nacional.
+Observatorio de datos abiertos de seguridad y convivencia ciudadana en Colombia. Análisis de la distribución territorial de la carga delictiva en 1.102 municipios durante el período 2018-2024, con énfasis en la medición de la inequidad mediante curvas de Lorenz, coeficientes de Gini y el índice de concentración de Wagstaff.
 
-## Fuentes de Datos
+📄 **[Informe final — Horizonte H3](docs/informe_final_h3.md)**
 
-Los datos utilizados en este proyecto provienen de **dos fuentes oficiales colombianas**:
+---
 
-### 1. Policía Nacional de Colombia — Estadísticas de Delitos de Impacto
+## Pregunta de investigación
 
-Los archivos de delitos se descargan directamente del portal web de la Policía Nacional de Colombia:
+> ¿Cómo se distribuye espacialmente el crimen reportado entre los municipios colombianos según su nivel de pobreza multidimensional (IPM), y qué nos dice esa distribución sobre la capacidad institucional del Estado para detectar y responder a la violencia en los distintos territorios?
 
-🔗 **Portal:** [https://www.policia.gov.co](https://www.policia.gov.co) → sección *Estadísticas de criminalidad* → *Delitos de impacto*
+**Hallazgos principales (H3 — 2018-2024):**
 
-Cada dataset se publica como archivos Excel (`.xlsx` / `.xls`) con periodicidad anual. La URL de descarga directa de cada archivo por año está documentada en [`datos/catalogo.yaml`](datos/catalogo.yaml).
+- Los municipios del primer quintil de IPM (menos pobres) absorben el **86,5% de los hurtos** reportados pese a concentrar el 61,9% de la población.
+- Los coeficientes de Gini son **negativos en todas las categorías y todos los años** (rango −0,12 a −0,35), indicando concentración del crimen en municipios urbanizados.
+- La correlación de Spearman entre IPM y tasa total es **ρ = −0,49** (p < 0,001), estable en todos los años analizados.
+- El choque COVID-19 de 2020 redujo la tasa nacional un **25,9%** y atenuó transitoriamente la concentración territorial.
 
-| Dataset | Descripción | Formato | Cobertura |
-|---------|-------------|---------|-----------|
-| Abigeato | Hurto a cabezas de ganado | xlsx/xls | 2018–2024 |
-| Amenazas | Amenazas por diversos motivos | xlsx/xls | 2018–2024 |
-| Delitos sexuales | Delitos de naturaleza sexual | xlsx/xls | 2018–2024 |
-| Extorsión | Extorsión | xlsx/xls | 2018–2024 |
-| Homicidios | Homicidios intencionales | xlsx/xls | 2018–2024 |
-| Homicidios en accidentes de tránsito | Homicidios ocurridos en accidentes de tránsito | xlsx/xls | 2018–2024 |
-| Hurto a personas | Hurtos cometidos contra personas | xlsx/xls | 2018–2024 |
-| Hurto a residencias | Hurtos en residencias | xlsx/xls | 2018–2024 |
-| Hurto de automotores | Hurtos de vehículos automotores | xlsx/xls | 2018–2024 |
-| Hurto de motocicletas | Hurtos de motocicletas | xlsx/xls | 2018–2024 |
-| Hurto a comercio | Hurtos a entidades comerciales | xlsx/xls | 2018–2024 |
-| Hurto a entidades financieras | Hurtos a entidades financieras | xlsx/xls | 2018–2024 |
-| Lesiones en accidentes de tránsito | Lesiones ocurridas en accidentes de tránsito | xlsx/xls | 2018–2024 |
-| Lesiones personales | Lesiones personales | xlsx/xls | 2018–2024 |
-| Piratería terrestre | Piratería terrestre | xlsx/xls | 2018–2024 |
-| Secuestro | Secuestro | xlsx/xls | 2018–2024 |
-| Terrorismo | Terrorismo | xlsx/xls | 2018–2024 |
-| Violencia intrafamiliar | Casos de violencia intrafamiliar | xlsx/xls | 2018–2024 |
+---
 
-> **Nota:** Algunos archivos de años 2020–2022 están en formato `.xls` antiguo y requieren la dependencia `xlrd >= 2.0.1` para su lectura. El script de ingesta maneja estos casos automáticamente.
+## Fuentes de datos abiertos
 
-### 2. DANE — Proyecciones de Población Municipal
+| Fuente | Portal | Identificador en catálogo | Período | Fecha consulta |
+|--------|--------|--------------------------|---------|----------------|
+| Policía Nacional — Delitos de impacto | [policia.gov.co](https://www.policia.gov.co) | `delitos_policia` | 2018–2024 | Nov. 2025 – Mar. 2026 |
+| DANE — Proyecciones de población municipal (PPED) | [dane.gov.co](https://www.dane.gov.co) | `dane_municipios` | 2018–2042 | Feb. 2026 |
+| DANE — IPM municipal CNPV 2018 | [dane.gov.co](https://www.dane.gov.co) | `ipm_dane_2018` | 2018 (censal) | Feb. 2026 |
 
-Para calcular tasas de delitos por 100.000 habitantes se utilizan las proyecciones de población del **DANE** (Departamento Administrativo Nacional de Estadística):
+El catálogo completo con URLs de descarga, formatos y metadatos está en [`datos/catalogo.yaml`](datos/catalogo.yaml).  
+El diccionario de variables y esquemas está en [`datos/diccionario_datos.md`](datos/diccionario_datos.md).
 
-🔗 **Portal:** [Proyecciones de población DANE](https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion)
+---
 
-- **Formato:** csv
-- **Cobertura:** 2018–2024
-- **Descarga:** Manual (no automatizable). Visitar el portal y buscar *"Proyecciones de población municipales y departamentales 2018-2035"*.
-- **Archivo esperado:** `datos/raw/poblacion/dane_poblacion_departamentos_2018_2024.csv`
-
-### Catálogo de datos
-
-Toda la metadata de las fuentes (URLs de descarga, formatos, cobertura temporal) está centralizada en [`datos/catalogo.yaml`](datos/catalogo.yaml). El pipeline de ingesta (`src/ingesta/`) lee este archivo para descargar y validar los datos automáticamente.
-
-## Preguntas de Investigacion
-
-- ¿Qué municipios presentan las mayores tasas de homicidio por 100,000 habitantes y cómo han evolucionado entre 2018 y 2024?
-- ¿Existe un patrón estacional en los hurtos y lesiones personales a nivel nacional?
-- ¿Qué relación hay entre el tipo de arma/medio y la zona geográfica?
-- ¿Los municipios con características socioeconómicas similares comparten perfiles delictivos comparables?
-
-## Estructura del Proyecto
+## Estructura del proyecto
 
 ```
 Datos-abiertos-Seguridad-y-Convivencia/
-|-- README.md                    # Este archivo
-|-- CONTRIBUTING.md              # Guia de contribucion y Git Flow
-|-- pyproject.toml               # Poetry (dependencias + metadata)
-|-- Dockerfile                   # Contenedor reproducible
-|-- src/
-|   |-- ingesta/                 # Descarga HTTP directa de Excel (Policia Nacional)
-|   |-- transformacion/          # Limpieza, normalizacion, modelo estrella, tabla maestra
-|   +-- visualizacion/           # Mapas coropleticos, series temporales
-|-- notebooks/
-|   |-- 01_eda.ipynb
-|   +-- 02_analisis.ipynb
-|-- app/
-|   +-- streamlit_app.py         # Dashboard interactivo
-|-- datos/
-|   |-- raw/                     # Datos crudos (gitignored)
-|   |-- processed/               # Parquets procesados (gitignored)
-|   |-- db/                      # DuckDB modelo estrella (gitignored)
-|   +-- catalogo.yaml            # Metadatos de cada dataset
-|-- docs/                        # Informes y documentacion metodologica
-|-- tests/                       # Tests automatizados (pytest)
-|-- artifacts/                   # Artefactos generados (metricas, reportes)
-+-- models/                      # Modelos serializados
+├── README.md                        # Este archivo
+├── CONTRIBUTING.md                  # Guía de contribución y Git Flow
+├── pyproject.toml                   # Poetry (dependencias + metadata)
+├── Dockerfile                       # Contenedor reproducible
+│
+├── src/
+│   ├── ingesta/                     # Descarga HTTP de Excel (Policía Nacional)
+│   │   ├── descargar_fuentes.py     # Descarga con retry/backoff
+│   │   ├── calidad_catalogo.py      # Validación de calidad de fuentes
+│   │   └── main.py                  # Entry point de ingesta
+│   ├── transformacion/              # Limpieza, proyección IPM, tabla maestra
+│   │   ├── descargar_poblacion.py   # Procesa PPED DANE → poblacion_dane.parquet
+│   │   ├── ipm_proyectado.py        # Proyección IPM municipal por ratio depto
+│   │   ├── tabla_maestra_h3.py      # Panel municipio × año con tasas e inequidad
+│   │   ├── modelo_estrella.py       # Esquema estrella DuckDB
+│   │   └── main.py                  # Entry point de transformación
+│   └── visualizacion/               # Mapas coropléticos, series temporales
+│       ├── mapa_coropletico.py
+│       └── series_temporales.py
+│
+├── notebooks/
+│   ├── 01_eda.ipynb                 # Exploración inicial del modelo estrella
+│   ├── 02_analisis.ipynb            # Análisis descriptivo
+│   ├── 03_lorenz_gini_h3.ipynb      # Curvas de Lorenz y Gini (H3, versión previa)
+│   ├── 03_lorenz_gini_h4.py         # Lorenz por categoría de tamaño municipal
+│   └── analisis_h3_informe.py       # Script principal: Gini, Wagstaff, Spearman
+│
+├── app/
+│   └── streamlit_app.py             # Dashboard interactivo (Streamlit)
+│
+├── datos/
+│   ├── catalogo.yaml                # Metadatos y URLs de cada fuente
+│   ├── diccionario_datos.md         # Diccionario de variables y esquemas
+│   ├── raw/                         # Datos crudos (gitignored)
+│   ├── interim/                     # Datos intermedios (gitignored)
+│   ├── processed/                   # Parquets procesados (gitignored)
+│   └── db/                          # DuckDB modelo estrella (gitignored)
+│
+├── docs/
+│   ├── informe_final_h3.md          # Informe estadístico final
+│   ├── metodologia_tabla_maestra_h3.md
+│   ├── modelo_estrella.md
+│   └── img/                         # Figuras generadas por los scripts
+│
+├── artifacts/                       # Métricas y artefactos de calidad de datos
+├── assets/                          # Logo institucional y diagramas
+├── tests/                           # Tests automatizados (pytest)
+└── models/                          # Modelos serializados
 ```
 
-## Instalacion
+---
 
-**Requisito:** Python 3.10, 3.11 o 3.12 (no compatible con Python 3.13+)
+## Instalación
+
+**Requisito:** Python 3.10, 3.11 o 3.12
 
 ```bash
 # Clonar el repositorio
@@ -102,113 +103,94 @@ cd Datos-abiertos-Seguridad-y-Convivencia
 python -m pip install poetry
 poetry install
 
-# Registrar el kernel de Jupyter (importante para notebooks)
+# Registrar el kernel de Jupyter
 poetry run python -m ipykernel install --user \
     --name=seguridad-convivencia \
     --display-name "Python (seguridad-convivencia)"
 ```
 
-## Ejecutar el Pipeline ETL
+---
 
-Antes de ejecutar los notebooks o el dashboard, debes generar los datos:
+## Reproducir los resultados
+
+### 1. Pipeline ETL completo
 
 ```bash
-# 1. Ingesta de datos desde Policía Nacional
+# Ingesta: descarga archivos Excel de la Policía Nacional
 poetry run python -m src.ingesta.main
 
-# 2. Transformación y creación del modelo estrella
+# Transformación: procesa población, proyecta IPM, construye tabla maestra
 poetry run python -m src.transformacion.main
 ```
 
-## Ejecutar Notebooks
+### 2. Análisis de inequidad (H3)
 
 ```bash
-# Abrir Jupyter con el kernel del proyecto
-poetry run jupyter notebook
+# Genera Gini, Wagstaff, Spearman y quintiles para el informe
+poetry run python notebooks/analisis_h3_informe.py
 
-# Luego selecciona el kernel "Python (seguridad-convivencia)"
+# Lorenz por categoría de tamaño municipal
+poetry run python notebooks/03_lorenz_gini_h4.py
 ```
 
-**Notebooks disponibles:**
-- `notebooks/00_union_bases_legacy.ipynb` — Pipeline legacy de descarga y unión de bases (genera `delitos_unificado.csv`)
-- `notebooks/01_eda.ipynb` — Exploración inicial del modelo estrella en DuckDB
-
-## Ejecutar Dashboard
-
-El dashboard interactivo principal (Sprint 3) es una aplicación avanzada que incluye:
-- **🗺️ Análisis Geoespacial**: Mapas coropléticos departamentales (Folium) y mapas de burbujas municipales (Plotly).
-- **📈 Análisis Temporal**: Módulo interactivo de series de tiempo para comparar tendencias delictivas entre 2018 y 2024.
-- **🕹️ Navegación Avanzada**: Soporte para navegación global mediante teclado (teclas de flecha ← / →) y controles segmentados rápidos.
-- **🎨 Interfaz Premium**: Tema institucional Ustadistica (Light Mode) con visualizaciones dinámicas integradas con DuckDB.
+### 3. Dashboard interactivo
 
 ```bash
 poetry run streamlit run app/streamlit_app.py
 ```
 
-## Troubleshooting
+---
 
-Si tienes problemas con los notebooks (kernel crashea, errores de carga):
+## Progreso del proyecto (CRISP-DM)
 
-→ Consulta [`docs/NOTEBOOKS_TROUBLESHOOTING.md`](docs/NOTEBOOKS_TROUBLESHOOTING.md)
+| Sprint | Período | Estado | Descripción |
+|--------|---------|--------|-------------|
+| Sprint 1 | Sem 1–2 | **COMPLETADO** | Reestructuración del repo, migración a Poetry, catálogo de fuentes |
+| Sprint 2 | Sem 3–4 | **COMPLETADO** | Modelo estrella DuckDB, integración población, tasas por 100k |
+| Sprint 3 | Sem 5–7 | **COMPLETADO** | Dashboard Streamlit: mapas coropléticos, series temporales, métricas |
+| Sprint 5 | Sem 9–10 | **COMPLETADO** | Tabla maestra H3, proyección IPM-SAE, análisis de inequidad territorial |
 
-## Cronograma -- CRISP-DM
-
-### Sprint 1 (Sem 1-2) - **[COMPLETADO]**
-
-Reestructuración del repo + migración a Poetry. Renombrar archivos, consolidar links en `datos/catalogo.yaml`, reorganizar según template estándar.
-
-### Sprint 2 (Sem 3-4) - **[COMPLETADO]**
-
-Modelo estrella en DuckDB: `fact_delitos`, `dim_ubicacion`, `dim_delito`, `dim_fecha`. Integración de datos de población para calcular tasas por 100K hab. y normalización de años recientes (2022).
-
-### Sprint 3 (Sem 5-7) - **[COMPLETADO]**
-
-Dashboard Streamlit de producción implementado:
-- Módulo geoespacial (mapas de tasas por departamento y burbujas municipales).
-- Módulo de análisis temporal (tendencias de delitos 2018-2024).
-- Navegación optimizada (teclado + segmented controls).
-- Cálculo dinámico de métricas rigurosas (tasas ponderadas).
-
-### Sprint 5 (Sem 9-10) - **[EN CURSO]**
-
-Tabla maestra para horizonte H3 — Inequidad territorial:
-- Proyección de IPM municipal 2018-2024 por ratio departamental.
-- Procesamiento de población municipal DANE (PPED 2018-2042).
-- Panel longitudinal de 1.122 municipios × 7 años con tasas, quintiles e indicadores de inequidad.
-- Documentación metodológica: [`docs/metodologia_tabla_maestra_h3.md`](docs/metodologia_tabla_maestra_h3.md).
-
-
-## Equipo
-
-| Rol | GitHub |
-|-----|--------|
-| Líder analítica | [@angelaricortega](https://github.com/angelaricortega) |
-| Líder infraestructura | [@dani9510](https://github.com/dani9510) |
-| Visualización + EDA | [@michaelmorantesp](https://github.com/michaelmorantesp) |
-
-**Director:** [@Izainea](https://github.com/Izainea)
-
-## Metodologia
-
-- **Framework analitico:** CRISP-DM
-- **Gestion de proyecto:** Sprints de 2 semanas con Kanban (GitHub Projects)
-- **Control de versiones:** Git Flow (`main` / `develop` / `feature/*`)
-- **Estandar operativo:** Big 4 (governance formal, auditoria cruzada, mejora continua)
-
-Consultar [CONTRIBUTING.md](CONTRIBUTING.md) para la guia completa de contribucion.
-
-## Stack Tecnologico
-
-| Capa | Herramientas |
-|------|-------------|
-| Ingesta | pandas, requests, pyyaml |
-| Almacen | DuckDB (modelo estrella) |
-| Analisis | pandas, scikit-learn, statsmodels |
-| Visualizacion | matplotlib, seaborn, plotly, folium |
-| Dashboard | Streamlit |
-| Reproducibilidad | Poetry, Docker, GitHub Actions |
-| Testing | pytest, pandera |
+**Entregables del Sprint 5:**
+- Panel longitudinal 7.708 filas (1.102 municipios × 7 años) con tasas e indicadores de inequidad
+- Curvas de Lorenz, Gini y Wagstaff por categoría delictiva y año (2018-2024)
+- Correlaciones de Spearman IPM ↔ tasas con contraste de hipótesis
+- Análisis por quintil IPM y análisis de victimización por género
+- [Informe estadístico final](docs/informe_final_h3.md)
 
 ---
 
-> *"Si no esta en el README, el proyecto no existe."* -- Ustadistica 2026-I
+## Equipo
+
+| Nombre | Rol | GitHub |
+|--------|-----|--------|
+| Daniela Murica | Infraestructura — ETL, DuckDB, reproducibilidad | [@dani9510](https://github.com/dani9510) |
+| Michael A. Morantes Pachón | Visualización / EDA — Notebooks, dashboard, mapas | [@michaelmorantesp](https://github.com/michaelmorantesp) |
+| Angela Rico Ortega | Análisis estadístico — Lorenz, concentración territorial | [@angelaricortega](https://github.com/angelaricortega) |
+| **Isaac Zainea** | Director — Supervisión estratégica y publicación | [@Izainea](https://github.com/Izainea) |
+
+---
+
+## Stack tecnológico
+
+| Capa | Herramientas |
+|------|-------------|
+| Ingesta | `pandas`, `requests`, `pyyaml`, `xlrd`, `openpyxl` |
+| Almacén | DuckDB (modelo estrella) |
+| Análisis | `pandas`, `numpy`, `scipy`, `statsmodels` |
+| Visualización | `matplotlib`, `seaborn`, `plotly`, `folium` |
+| Dashboard | Streamlit |
+| Reproducibilidad | Poetry, Docker, GitHub Actions |
+| Testing | `pytest`, `pandera` |
+
+---
+
+## Metodología
+
+- **Framework analítico:** CRISP-DM
+- **Gestión de proyecto:** Sprints de 2 semanas con Kanban (GitHub Projects)
+- **Control de versiones:** Git Flow (`main` / `develop` / `feature/*`)
+- **Estándar de datos:** Catálogo YAML + validación con `pandera`
+
+---
+
+> *"Si no está en el README, el proyecto no existe."* — Ustadistica 2026-I
