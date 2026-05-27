@@ -380,13 +380,9 @@ Se contrasta la hipótesis nula H₀: ρ = 0 mediante la estadística t = ρ · 
 
 **Figura 1. Curvas de Lorenz agregadas 2018-2024 por categoría delictiva**
 
-![Figura 1. Curvas de Lorenz por categoría delictiva](img/lorenz_crimen_agregado.png)
-
 *(Descripción:)* Gráfico de dos ejes. Eje horizontal: proporción acumulada de municipios ordenados de menor a mayor IPM proyectado (escala 0%-100%). Eje vertical: proporción acumulada de la tasa delictiva respectiva (escala 0%-100%). Se trazan cuatro curvas coloreadas: Robo (azul USTA, más alejada de la diagonal), Violencia de género (rojo), Crimen violento (amarillo) y Total (verde). Todas las curvas se ubican por encima de la diagonal de equidad (línea negra punteada), con la curva de Robo exhibiendo la mayor distancia (indicativa del Gini de −0,31). Se incluyen etiquetas con el valor de Gini promedio para cada categoría en la leyenda.
 
 **Figura 2. Comparación de curvas de Lorenz 2018 vs. 2024 — Crimen total**
-
-![Figura 2. Lorenz 2018 vs. 2024 — crimen total](img/lorenz_2018_vs_2024.png)
 
 *(Descripción:)* Gráfico con la curva de Lorenz para el total delictivo en 2018 (línea continua azul, Gini = −0,2158) y en 2024 (línea discontinua roja, Gini = −0,2213), con una banda sombreada que destaca la diferencia entre ambas. La diagonal de equidad se representa en negro. Se observa que la curva de 2024 está ligeramente más alejada de la diagonal que la de 2018, indicando una mayor concentración en el período más reciente.
 
