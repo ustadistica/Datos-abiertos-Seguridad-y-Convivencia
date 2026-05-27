@@ -9,6 +9,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20cabezas%20de%20ganado2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20cabezas%20de%20ganado.._0.xlsx"
@@ -28,6 +30,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Amenazas2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/amenzas..xlsx"
@@ -47,6 +51,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Delitos%20sexuales2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/delitos%20sexuales.xlsx"
@@ -66,6 +72,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Extorsión2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/extorsion_11.xlsx"
@@ -85,6 +93,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Homicidio%20Intencional2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/homicidio%20intencional_0.xlsx"
@@ -104,6 +114,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Homicidios%20en%20accidente%20de%20tr%C3%A1nsito2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/homicidios%20en%20accidente%20de%20transito....xlsx"
@@ -123,6 +135,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20personas2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20a%20personas.xlsx"
@@ -142,6 +156,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20residencias2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20a%20residencias....xlsx"
@@ -161,6 +177,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20automotores2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20automotores....xlsx"
@@ -181,6 +199,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20motocicletas2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20a%20motocicletas....xlsx"
@@ -200,6 +220,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20comercio2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20a%20comercio..._0.xlsx"
@@ -219,6 +241,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20a%20entidades%20Financieras2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20entidades%20financieras.xlsx"
@@ -239,6 +263,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Lesiones%20en%20accidente%20de%20tr%C3%A1nsito2024_2.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones%20en%20accidente%20de%20transito....xlsx"
@@ -259,6 +285,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Lesiones%20personales2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/lesiones%20personales..._0.xlsx"
@@ -278,6 +306,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Hurto%20pirater%C3%ADa%20terrestre2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/hurto%20pirateria%20terrestre_1.xlsx"
@@ -298,6 +328,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Secuestro2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/secuestro..._0.xlsx"
@@ -318,6 +350,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Terrorismo2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/terrorismo_4.xlsx"
@@ -339,6 +373,8 @@ fuentes:
       inicio: 2018
       fin: 2024
     periodicidad: "anual"
+    fecha_consulta: "noviembre 2025 - marzo 2026"
+    licencia: "Uso libre con atribución — Policía Nacional de Colombia"
     urls:
       "2024": "https://www.policia.gov.co/sites/default/files/delitos-impacto/Violencia%20intrafamiliar2024_0.xlsx"
       "2023": "https://www.policia.gov.co/sites/default/files/delitos-impacto/violencia%20intrafamiliar....xlsx"
@@ -351,21 +387,70 @@ fuentes:
 
 fuentes_poblacion:
   dane_municipios:
-    nombre: "Proyecciones de población DANE por municipio"
+    nombre: "Proyecciones de población DANE por municipio (PPED 2018-2042)"
     fuente: "DANE — Departamento Administrativo Nacional de Estadística"
     portal: "https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion"
-    formato: "csv"
+    conjunto: "PPED-AreaSexoEdadMun-2018-2042_VP.xlsx"
+    formato: "xlsx"
     descripcion: >
-      Proyecciones de población por municipio y año 2018-2024.
-      Necesario para calcular tasas de delitos por 100.000 habitantes.
+      Proyecciones post-censales de población municipal 2018-2042 por área
+      (cabecera / rural disperso / total). Necesario para calcular tasas de
+      delitos por 100.000 habitantes.
     cobertura_temporal:
       inicio: 2018
-      fin: 2024
+      fin: 2042
+    periodo_analisis: "2018-2024"
+    fecha_consulta: "febrero 2026"
+    licencia: "Uso libre con atribución — DANE Colombia"
     nota_descarga: >
-      Descarga manual requerida. Guardar el archivo en formato CSV en la ruta indicada.
-    columnas_requeridas:
-      - DEPARTAMENTO
+      Descarga manual requerida desde el portal DANE. Script de procesamiento:
+      src/transformacion/descargar_poblacion.py
+    archivo_fuente: "datos/raw/poblacion/PPED_Municipal_2018_2042.xlsx"
+    archivo_procesado: "datos/processed/poblacion_dane.parquet"
+    columnas_salida:
+      - COD_MPIO
       - MUNICIPIO
-      - AÑO
-      - POBLACION
-    archivo_esperado: "datos/raw/poblacion/dane_poblacion_departamentos_2018_2024.csv"
+      - COD_DEP
+      - DEPARTAMENTO
+      - ANIO
+      - pob_total
+      - pob_cabecera
+      - pob_rural
+      - pct_cabecera
+
+fuentes_ipm:
+  ipm_dane_2018:
+    nombre: "IPM municipal — Censo Nacional de Población y Vivienda 2018"
+    fuente: "DANE — Departamento Administrativo Nacional de Estadística"
+    portal: "https://www.dane.gov.co/index.php/estadisticas-por-tema/pobreza-y-condiciones-de-vida/pobreza-multidimensional"
+    conjunto: "ipm_municipal_colombia_2018_2024.xlsx"
+    formato: "xlsx"
+    descripcion: >
+      Índice de Pobreza Multidimensional (IPM) a nivel municipal calculado
+      a partir del Censo Nacional 2018. Base para la proyección SAE 2019-2024.
+      Incluye IPM total, cabeceras e rural disperso para ~1.122 entidades.
+    cobertura_temporal:
+      inicio: 2018
+      fin: 2018
+    fecha_consulta: "febrero 2026"
+    licencia: "Uso libre con atribución — DANE Colombia"
+    metodo_proyeccion: >
+      SAE (Small Area Estimation): IPM_mun,t = IPM_mun,2018 × (IPM_depto,t / IPM_depto,2018).
+      Los ratios departamentales anuales se obtienen de los reportes anuales de
+      pobreza multidimensional del DANE.
+    script_procesamiento: "src/transformacion/ipm_proyectado.py"
+    archivo_fuente_municipal: "datos/raw/ipm_municipal_colombia_2018_2024.xlsx"
+    archivo_fuente_departamental: "datos/raw/ipm_municipal_2018.xlsx.xlsx"
+    archivo_procesado: "datos/processed/ipm_proyectado_municipal.parquet"
+    columnas_salida:
+      - cod_mpio
+      - municipio
+      - cod_depto
+      - departamento
+      - tipo_entidad
+      - anio
+      - ipm_2018_total
+      - ipm_2018_cabeceras
+      - ipm_2018_rural
+      - ipm_proyectado
+      - es_imputado
