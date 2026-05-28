@@ -60,13 +60,12 @@ Mayo de 2026
 7. [Resultados](#6-resultados)
    - [6.1 Inventario del panel](#61-inventario-del-panel-de-datos)
    - [6.2 Estadística descriptiva](#62-estadística-descriptiva-univariada)
-   - [6.3 Gini y Wagstaff](#63-análisis-de-concentración-gini-y-wagstaff)
-   - [6.4 Correlación de Spearman](#64-correlación-de-spearman-ipm--tasas)
-   - [6.5 Carga por quintil IPM](#65-carga-delictiva-por-quintil-ipm)
-   - [6.6 Tendencias temporales](#66-análisis-de-tendencias-temporales)
-   - [6.7 Victimización por género](#67-análisis-de-victimización-por-género)
-   - [6.8 Mapa coroplético](#68-figura-8--mapa-coroplético-nacional-descripción)
-   - [6.9 Concentración por tamaño municipal](#69-concentración-por-categoría-de-tamaño-municipal)
+   - [6.3 Correlación de Spearman](#63-correlación-de-spearman-ipm--tasas)
+   - [6.4 Carga por quintil IPM](#64-carga-delictiva-por-quintil-ipm)
+   - [6.5 Tendencias temporales](#65-análisis-de-tendencias-temporales)
+   - [6.6 Victimización por género](#66-análisis-de-victimización-por-género)
+   - [6.7 Mapa coroplético](#67-figura-7--mapa-coroplético-nacional-descripción)
+   - [6.8 Concentración por tamaño municipal](#68-concentración-por-categoría-de-tamaño-municipal)
 8. [Discusión](#7-discusión)
 9. [Conclusiones](#8-conclusiones)
 10. [Recomendaciones de Política Pública](#9-recomendaciones-de-política-pública)
@@ -359,44 +358,9 @@ Se contrasta la hipótesis nula H₀: ρ = 0 mediante la estadística t = ρ · 
 
 ---
 
-### 6.3 Análisis de concentración: Gini y Wagstaff
+### 6.3 Correlación de Spearman (IPM ↔ tasas)
 
-**Tabla 3. Coeficiente de Gini y el Índice de Concentración de Wagstaff por categoría delictiva y año (2018-2024)**
-
-| Categoría | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | Prom. |
-|---|---|---|---|---|---|---|---|---|
-| **Robo — Gini** | −0,3079 | −0,3025 | −0,2837 | −0,3083 | −0,3461 | −0,3296 | −0,2962 | −0,3106 |
-| **Robo — Wagstaff** | −0,3082 | −0,3028 | −0,2840 | −0,3086 | −0,3464 | −0,3299 | −0,2964 | −0,3109 |
-| **Crimen violento — Gini** | −0,1642 | −0,1278 | −0,1166 | −0,1422 | −0,1745 | −0,1562 | −0,1637 | −0,1493 |
-| **Crimen violento — Wagstaff** | −0,1643 | −0,1279 | −0,1167 | −0,1423 | −0,1746 | −0,1563 | −0,1638 | −0,1494 |
-| **Violencia de género — Gini** | −0,1701 | −0,1391 | −0,1414 | −0,1479 | −0,1799 | −0,1485 | −0,1733 | −0,1572 |
-| **Violencia de género — Wagstaff** | −0,1703 | −0,1393 | −0,1415 | −0,1480 | −0,1801 | −0,1486 | −0,1734 | −0,1573 |
-| **Total — Gini** | −0,2158 | −0,2043 | −0,1853 | −0,2055 | −0,2505 | −0,2312 | −0,2213 | −0,2163 |
-| **Total — Wagstaff** | −0,2160 | −0,2045 | −0,1855 | −0,2057 | −0,2507 | −0,2314 | −0,2215 | −0,2165 |
-
-*Fuente:* Elaboración propia. Los municipios se ordenaron de menor a mayor IPM proyectado en cada año.
-
-*Nota metodológica:* Todos los valores de Gini y Wagstaff son negativos, lo que indica que la curva de Lorenz se encuentra consistentemente por encima de la diagonal de equidad: los municipios con menor IPM (menos pobres, más urbanizados) concentran una proporción de crimen reportado mayor a su representación numérica en el total. El Gini y el Wagstaff producen estimaciones prácticamente idénticas en este caso, lo que refleja que la aproximación por rangos fraccionales converge con el área bajo la curva de Lorenz para este tamaño de muestra (n ≈ 1.100 municipios por año). El año 2022 registra la mayor concentración en todas las categorías (Gini total = −0,2505), mientras 2020 presenta la menor (−0,1853), coincidiendo con el choque COVID-19 que redujo selectivamente los delitos de oportunidad en entornos urbanos.
-
-**Figura 1. Curvas de Lorenz agregadas 2018-2024 por categoría delictiva**
-
-*(Descripción:)* Gráfico de dos ejes. Eje horizontal: proporción acumulada de municipios ordenados de menor a mayor IPM proyectado (escala 0%-100%). Eje vertical: proporción acumulada de la tasa delictiva respectiva (escala 0%-100%). Se trazan cuatro curvas coloreadas: Robo (azul USTA, más alejada de la diagonal), Violencia de género (rojo), Crimen violento (amarillo) y Total (verde). Todas las curvas se ubican por encima de la diagonal de equidad (línea negra punteada), con la curva de Robo exhibiendo la mayor distancia (indicativa del Gini de −0,31). Se incluyen etiquetas con el valor de Gini promedio para cada categoría en la leyenda.
-
-**Figura 2. Comparación de curvas de Lorenz 2018 vs. 2024 — Crimen total**
-
-*(Descripción:)* Gráfico con la curva de Lorenz para el total delictivo en 2018 (línea continua azul, Gini = −0,2158) y en 2024 (línea discontinua roja, Gini = −0,2213), con una banda sombreada que destaca la diferencia entre ambas. La diagonal de equidad se representa en negro. Se observa que la curva de 2024 está ligeramente más alejada de la diagonal que la de 2018, indicando una mayor concentración en el período más reciente.
-
-**Figura 3. Evolución temporal del Gini y Wagstaff total (2018-2024)**
-
-![Figura 3. Gini y Wagstaff 2018-2024](img/gini_wagstaff_temporal.png)
-
-*(Descripción:)* Gráfico de líneas con dos series (Gini en azul, Wagstaff en rojo punteado) sobre el eje Y izquierdo (rango −0,28 a −0,18). Eje horizontal: años 2018-2024. Se incluye una banda sombreada gris entre 2020 y 2021 que indica el período de disrupción COVID-19, con una anotación textual de "−25,9% tasa nacional 2020". Se observa una reducción de la concentración en 2020 (Gini = −0,1853) seguida de un repunte en 2022 (Gini = −0,2505).
-
----
-
-### 6.4 Correlación de Spearman (IPM ↔ tasas)
-
-**Tabla 4. Coeficientes de correlación de Spearman entre IPM proyectado y tasas delictivas (panel completo 2018-2024, n = 7.708)**
+**Tabla 3. Coeficientes de correlación de Spearman entre IPM proyectado y tasas delictivas (panel completo 2018-2024, n = 7.708)**
 
 | Par de variables | ρ (Spearman) | p-valor | n |
 |---|---|---|---|
@@ -409,7 +373,7 @@ Se contrasta la hipótesis nula H₀: ρ = 0 mediante la estadística t = ρ · 
 
 *Nota sobre independencia:* El n = 7.708 de esta tabla incluye las 7 observaciones anuales de cada municipio, que no son estadísticamente independientes entre sí (el mismo territorio aparece 7 veces). Esto infla el tamaño efectivo de muestra y produce p-valores más pequeños de lo que corresponde. La referencia metodológicamente más conservadora son las correlaciones anuales de la Tabla 4b (n ≈ 1.100 municipios independientes por año), que en todos los casos confirman el resultado con p < 0,001.
 
-**Tabla 4b. Evolución del coeficiente de Spearman ρ(IPM, Tasa total) por año**
+**Tabla 3b. Evolución del coeficiente de Spearman ρ(IPM, Tasa total) por año**
 
 | Año | ρ | p-valor | n |
 |---|---|---|---|
@@ -423,17 +387,17 @@ Se contrasta la hipótesis nula H₀: ρ = 0 mediante la estadística t = ρ · 
 
 *Nota:* La correlación negativa es consistente en todos los años y todas las categorías (p < 0,001 en todos los casos), rechazando la hipótesis nula de ausencia de gradiente socioeconómico. La correlación es más intensa para el robo (ρ = −0,52) que para el crimen violento (ρ = −0,36) o la violencia de género (ρ = −0,32), en concordancia con la mayor urbanización del primero. El año 2022 registra la correlación anual más alta (ρ = −0,64), coincidiendo con el año de mayor concentración según el Gini (−0,2505).
 
-**Figura 4. Scatter plot IPM (eje X) × tasa robo (eje Y) con ajuste polinomial de grado 2**
+**Figura 3. Scatter plot IPM (eje X) × tasa robo (eje Y) con ajuste polinomial de grado 2**
 
-![Figura 4. Scatter IPM vs. tasa de robo](img/scatter_tasa_vs_ipm.png)
+![Figura 3. Scatter IPM vs. tasa de robo](img/scatter_tasa_vs_ipm.png)
 
 *(Descripción:)* Diagrama de dispersión con n = 7.708 puntos, coloreados por quintil IPM (Q1 azul oscuro, Q2 azul medio, Q3 amarillo, Q4 naranja, Q5 rojo). Eje horizontal: IPM proyectado (2,79% a 100%), eje vertical: tasa de robo por 100.000 (0 a 2.390). Se superpone la curva ajustada del modelo: tasa_robo = 803,68 − 25,86·IPM + 0,23·IPM² (R² = 0,30), con bandas de confianza al 95% sombreadas en gris. La curva es decreciente para valores bajos de IPM (efecto dominante del coeficiente lineal negativo −25,86) y ligeramente cóncava hacia arriba para valores de IPM superiores a 55% (efecto del término cuadrático positivo +0,23).
 
 ---
 
-### 6.5 Carga delictiva por quintil IPM
+### 6.4 Carga delictiva por quintil IPM
 
-**Tabla 5. Carga delictiva por quintil de IPM — Agregado 2018-2024**
+**Tabla 4. Carga delictiva por quintil de IPM — Agregado 2018-2024**
 
 | Quintil IPM | % Población | Robo: % eventos | Tasa mediana robo | Crimen violento: % eventos | Tasa mediana C.V. | Viol. género: % eventos | Tasa mediana V.G. | Total: % eventos | Tasa mediana total |
 |---|---|---|---|---|---|---|---|---|---|
@@ -448,17 +412,17 @@ Se contrasta la hipótesis nula H₀: ρ = 0 mediante la estadística t = ρ · 
 
 *Nota:* Q1 concentra el 61,9% de la población porque incluye los municipios más urbanizados del país (Bogotá, Medellín, Cali, Barranquilla y sus áreas metropolitanas). La razón de tasas medianas Q1/Q5 es de 5,38 para robo (la categoría más urbanizada), indicando que un habitante de un municipio del quintil menos pobre tiene, en términos medianos, una exposición 5,4 veces mayor al robo reportado que uno del quintil más pobre. Esta brecha es 2,6 veces para crimen violento y 2,8 veces para violencia de género.
 
-**Figura 5. Boxplot de tasas por quintil IPM (cuatro categorías delictivas)**
+**Figura 4. Boxplot de tasas por quintil IPM (cuatro categorías delictivas)**
 
-![Figura 5. Boxplot de tasas por quintil IPM](img/boxplot_tasas_quintil_ipm.png)
+![Figura 4. Boxplot de tasas por quintil IPM](img/boxplot_tasas_quintil_ipm.png)
 
 *(Descripción:)* Panel de cuatro boxplots (2×2), uno por categoría delictiva. En cada boxplot, el eje horizontal corresponde a los quintiles Q1-Q5 (de menor a mayor pobreza), y el eje vertical a la tasa por 100.000 habitantes. Se observa una tendencia decreciente de las medianas y los rangos intercuartílicos al pasar de Q1 a Q5 en todas las categorías. La categoría de robo muestra la mayor dispersión intra-quintil y la más pronunciada caída entre Q1 y Q5.
 
 ---
 
-### 6.6 Análisis de tendencias temporales
+### 6.5 Análisis de tendencias temporales
 
-**Figura 6. Serie anual 2018-2024 — Tasa nacional total de delitos por 100.000 habitantes**
+**Figura 5. Serie anual 2018-2024 — Tasa nacional total de delitos por 100.000 habitantes**
 
 | Año | Total eventos | Tasa nacional (por 100k) | Variación % interanual |
 |---|---|---|---|
@@ -478,9 +442,9 @@ Se contrasta la hipótesis nula H₀: ρ = 0 mediante la estadística t = ρ · 
 
 ---
 
-### 6.7 Análisis de victimización por género
+### 6.6 Análisis de victimización por género
 
-**Figura 7. Distribución de víctimas por género y tipo de delito**
+**Figura 6. Distribución de víctimas por género y tipo de delito**
 
 | Tipo de delito | Femenino (%) | Masculino (%) | Sin dato / No reportado (%) | Total eventos |
 |---|---|---|---|---|
@@ -494,19 +458,19 @@ Se contrasta la hipótesis nula H₀: ρ = 0 mediante la estadística t = ρ · 
 
 ---
 
-### 6.8 Figura 8 — Mapa coroplético nacional (descripción)
+### 6.7 Figura 7 — Mapa coroplético nacional (descripción)
 
-**Figura 8. Mapa coroplético nacional: tasa delictiva total por municipio, año 2024**
+**Figura 7. Mapa coroplético nacional: tasa delictiva total por municipio, año 2024**
 
 *(Descripción para reproducción:)* Mapa político de Colombia a escala municipal, con 1.100 unidades coloreadas en una escala gradiente continua de azul claro (tasas bajas, < 200 por 100k) a rojo oscuro (tasas altas, > 1.500 por 100k), pasando por amarillo (tasas intermedias, 500-900 por 100k). Las mayores concentraciones de color rojo se observan en los departamentos de Cundinamarca (Bogotá y área metropolitana), Valle del Cauca (Cali), Risaralda y Quindío. Los departamentos de la Amazonía (Vaupés, Guainía, Amazonas) y la región Caribe rural presentan las tonalidades más claras. Se incluye leyenda de escala y mención a la fuente. Este mapa ha sido generado con los scripts del módulo `src/visualizacion/mapa_coropletico.py`.
 
 ---
 
-### 6.9 Concentración por categoría de tamaño municipal
+### 6.8 Concentración por categoría de tamaño municipal
 
 Para examinar si el patrón de desigualdad varía según la escala demográfica del municipio, se estratificó el panel en cuatro categorías de tamaño poblacional —definidas con base en la población de 2018— y se calcularon curvas de Lorenz, coeficiente de Gini y el índice de concentración de Wagstaff para cada estrato. A diferencia del análisis global (sección 6.3), aquí las curvas se construyen **dentro de cada categoría**: el eje horizontal representa el porcentaje acumulado de población ordenada de menor a mayor tasa delictiva, por lo que un Gini positivo indica que el crimen se concentra en los municipios con tasas más altas dentro del mismo estrato. El Wagstaff mide, adicionalmente, si esa concentración está alineada con el nivel de pobreza (IPM).
 
-**Tabla 6. Gini de concentración intra-categoría y Wagstaff (IPM ↔ tasa total) por categoría de tamaño municipal y año (2018-2024)**
+**Tabla 5. Gini de concentración intra-categoría y Wagstaff (IPM ↔ tasa total) por categoría de tamaño municipal y año (2018-2024)**
 
 | Categoría | N mpios | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | Prom. |
 |---|---|---|---|---|---|---|---|---|---|
@@ -523,9 +487,9 @@ Para examinar si el patrón de desigualdad varía según la escala demográfica 
 
 Los resultados revelan dos patrones de interés. Primero, la **concentración intra-categoría** (Gini positivo) es mayor en los municipios pequeños (Prom. = 0,34) que en los grandes (Prom. = 0,20), lo que sugiere que dentro del estrato de municipios intermedios existe mayor heterogeneidad en las tasas que en las grandes ciudades, donde los niveles de denuncia y exposición son más homogéneos. Segundo, el **gradiente socioeconómico interno** (Wagstaff) es más pronunciado en los municipios pequeños y medianos (−0,22 y −0,20, respectivamente) que en los grandes (−0,05): en las ciudades de más de 200.000 habitantes la relación IPM-crimen es casi nula, posiblemente porque esos municipios comparten niveles de pobreza bajos y la variación relevante en crimen obedece a factores no capturados por el IPM (densidad urbana, economía informal, micro-geografía del delito).
 
-**Figura 9. Curvas de Lorenz por categoría de tamaño municipal (panel 2018-2024 agregado)**
+**Figura 8. Curvas de Lorenz por categoría de tamaño municipal (panel 2018-2024 agregado)**
 
-![Figura 9. Lorenz por categoría de tamaño municipal](img/lorenz_por_tamano_municipal.png)
+![Figura 8. Lorenz por categoría de tamaño municipal](img/lorenz_por_tamano_municipal.png)
 
 *(Descripción:)* Gráfico con cuatro curvas de Lorenz sobre la diagonal de equidad (línea punteada negra). Eje horizontal: porcentaje acumulado de población ordenada de menor a mayor tasa delictiva (de izquierda = menor tasa a derecha = mayor tasa). Eje vertical: porcentaje acumulado de delitos. Las cuatro curvas se ubican por encima de la diagonal, con la curva de municipios pequeños (10k-50k, Gini = 0,3273) como la más alejada de la diagonal, seguida de muy pequeños (0,2834), medianos (0,2778) y grandes (0,2039). A mayor distancia de la diagonal, mayor concentración del crimen en unos pocos municipios del estrato.
 
